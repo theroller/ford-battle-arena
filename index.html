@@ -249,7 +249,7 @@
       </div>
 
       <button class="weapon-btn" id="ford-btn-sword" onclick="pickWeapon('ford','sword')">
-        <span class="w-icon">⚔️</span><span class="w-name">SWORD</span><span class="w-desc">2–5 dmg · steady crits</span>
+        <span class="w-icon">⚔️</span><span class="w-name">SWORD</span><span class="w-desc">3–7 dmg · steady crits</span>
       </button>
       <button class="weapon-btn" id="ford-btn-arrow" onclick="pickWeapon('ford','arrow')">
         <span class="w-icon">🏹</span><span class="w-name">POISON ARROW</span><span class="w-desc">1–3 dmg · venom drains enemy</span>
@@ -258,7 +258,7 @@
         <span class="w-icon">🪓</span><span class="w-name">AXE</span><span class="w-desc">2–8 dmg · brutal crits</span>
       </button>
       <button class="weapon-btn" id="ford-btn-wand" onclick="pickWeapon('ford','wand')">
-        <span class="w-icon">🪄</span><span class="w-name">MAGIC WAND</span><span class="w-desc">1–10 dmg · wild · 3-bolt special</span>
+        <span class="w-icon">🪄</span><span class="w-name">MAGIC WAND</span><span class="w-desc">2–7 dmg · wild · 3-bolt special</span>
       </button>
     </div>
 
@@ -292,7 +292,7 @@
       </div>
 
       <button class="weapon-btn" id="finn-btn-sword" onclick="pickWeapon('finn','sword')">
-        <span class="w-icon">⚔️</span><span class="w-name">SWORD</span><span class="w-desc">2–5 dmg · steady crits</span>
+        <span class="w-icon">⚔️</span><span class="w-name">SWORD</span><span class="w-desc">3–7 dmg · steady crits</span>
       </button>
       <button class="weapon-btn" id="finn-btn-arrow" onclick="pickWeapon('finn','arrow')">
         <span class="w-icon">🏹</span><span class="w-name">POISON ARROW</span><span class="w-desc">1–3 dmg · venom drains enemy</span>
@@ -301,12 +301,12 @@
         <span class="w-icon">🪓</span><span class="w-name">AXE</span><span class="w-desc">2–8 dmg · brutal crits</span>
       </button>
       <button class="weapon-btn" id="finn-btn-wand" onclick="pickWeapon('finn','wand')">
-        <span class="w-icon">🪄</span><span class="w-name">MAGIC WAND</span><span class="w-desc">1–10 dmg · wild · 3-bolt special</span>
+        <span class="w-icon">🪄</span><span class="w-name">MAGIC WAND</span><span class="w-desc">2–7 dmg · wild · 3-bolt special</span>
       </button>
     </div>
   </div>
 
-  <div id="version-tag">v1.8</div>
+  <div id="version-tag">v1.9</div>
 
   <!-- Win screen -->
   <div id="win-screen">
@@ -320,8 +320,8 @@
     // ── Stat tables (index = allocation level 0–4) ──
     const STAT_TABLE = {
       crit:   { values: [0.04, 0.10, 0.16, 0.22, 0.30], labels: ['4%','10%','16%','22%','30%'] },
-      power:  { values: [1.2,  1.5,  1.8,  2.2,  2.7],  labels: ['×1.2','×1.5','×1.8','×2.2','×2.7'] },
-      charge: { values: [1800, 1450, 1150, 900,  650],   labels: ['SLOW','MED','MED','FAST','FAST'] },
+      power:  { values: [1.2,  1.4,  1.7,  2.0,  2.4],  labels: ['×1.2','×1.4','×1.7','×2.0','×2.4'] },
+      charge: { values: [1700, 1450, 1200, 1000, 800],   labels: ['SLOW','MED','MED','FAST','FAST'] },
     };
     const MAX_LEVEL   = 4;   // max per stat
     const TOTAL_PTS   = 5;   // total points per player
@@ -342,10 +342,10 @@
     }
 
     const WEAPONS = {
-      sword: { icon:'⚔️', dmgMin:2, dmgMax:5,  weakMin:1, weakMax:2, specMin:10, specMax:16, critBonus:0.05,  critMultBonus:0,   poison:false, bolts:1 },
+      sword: { icon:'⚔️', dmgMin:3, dmgMax:7,  weakMin:1, weakMax:2, specMin:12, specMax:20, critBonus:0.05,  critMultBonus:0,   poison:false, bolts:1 },
       arrow: { icon:'🏹', dmgMin:1, dmgMax:3,  weakMin:1, weakMax:1, specMin:2,  specMax:4,  critBonus:-0.05, critMultBonus:0,   poison:true, poisonTicks:3, poisonDmg:2, specPoisonTicks:7, specPoisonDmg:3, bolts:1 },
       axe:   { icon:'🪓', dmgMin:2, dmgMax:8,  weakMin:1, weakMax:3, specMin:14, specMax:24, critBonus:-0.08, critMultBonus:1.0, poison:false, bolts:1 },
-      wand:  { icon:'🪄', dmgMin:1, dmgMax:10, weakMin:1, weakMax:3, specMin:4,  specMax:10, critBonus:0,     critMultBonus:0.3, poison:false, bolts:3 },
+      wand:  { icon:'🪄', dmgMin:2, dmgMax:7,  weakMin:1, weakMax:2, specMin:2,  specMax:8,  critBonus:0,     critMultBonus:0.3, poison:false, bolts:3 },
     };
     const MAX_HP       = 150;
     const ROUNDS_TO_WIN = 3;
