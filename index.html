@@ -141,6 +141,10 @@
     .damage-pop.special { font-size: clamp(48px,11vw,72px); color: #ffd700; text-shadow: 0 0 20px #ffd700,0 2px 8px #000; }
     .damage-pop.poison  { font-size: clamp(26px,6vw,40px);  color: #66bb6a; }
     .damage-pop.crit    { font-size: clamp(54px,12vw,80px); color: #ff4444; text-shadow: 0 0 24px #ff0000,0 2px 8px #000; }
+    .damage-pop.magic   { font-size: clamp(34px,8vw,52px);  color: #ce93d8; text-shadow: 0 0 16px #ab47bc,0 2px 8px #000; }
+
+    /* ── VERSION WATERMARK ── */
+    #version-tag { position: fixed; bottom: 5px; right: 8px; z-index: 50; font-size: 11px; color: rgba(255,255,255,0.18); font-weight: 700; letter-spacing: 1px; pointer-events: none; font-family: monospace; }
     @keyframes dmg-float { 0%{opacity:1;transform:translateX(-50%) translateY(0) scale(1.5)} 100%{opacity:0;transform:translateX(-50%) translateY(-110px) scale(0.8)} }
 
     .crit-label { position: absolute; font-size: clamp(20px,5vw,30px); font-weight: 900; color: #ff4444; text-shadow: 0 0 16px #ff0000; letter-spacing: 2px; pointer-events: none; top: 18%; left: 50%; transform: translateX(-50%); animation: crit-pop .6s ease-out forwards; }
@@ -253,6 +257,9 @@
       <button class="weapon-btn" id="ford-btn-axe" onclick="pickWeapon('ford','axe')">
         <span class="w-icon">🪓</span><span class="w-name">AXE</span><span class="w-desc">2–8 dmg · brutal crits</span>
       </button>
+      <button class="weapon-btn" id="ford-btn-wand" onclick="pickWeapon('ford','wand')">
+        <span class="w-icon">🪄</span><span class="w-name">MAGIC WAND</span><span class="w-desc">1–10 dmg · wild · 3-bolt special</span>
+      </button>
     </div>
 
     <div class="weapon-side" id="finn-weapon-side">
@@ -293,8 +300,13 @@
       <button class="weapon-btn" id="finn-btn-axe" onclick="pickWeapon('finn','axe')">
         <span class="w-icon">🪓</span><span class="w-name">AXE</span><span class="w-desc">2–8 dmg · brutal crits</span>
       </button>
+      <button class="weapon-btn" id="finn-btn-wand" onclick="pickWeapon('finn','wand')">
+        <span class="w-icon">🪄</span><span class="w-name">MAGIC WAND</span><span class="w-desc">1–10 dmg · wild · 3-bolt special</span>
+      </button>
     </div>
   </div>
+
+  <div id="version-tag">v1.7</div>
 
   <!-- Win screen -->
   <div id="win-screen">
@@ -330,9 +342,10 @@
     }
 
     const WEAPONS = {
-      sword: { icon:'⚔️', dmgMin:2, dmgMax:5,  specMin:10, specMax:16, critBonus:0.05,  critMultBonus:0,   poison:false },
-      arrow: { icon:'🏹', dmgMin:1, dmgMax:3,  specMin:2,  specMax:4,  critBonus:-0.05, critMultBonus:0,   poison:true, poisonTicks:3, poisonDmg:2, specPoisonTicks:7, specPoisonDmg:3 },
-      axe:   { icon:'🪓', dmgMin:2, dmgMax:8,  specMin:14, specMax:24, critBonus:-0.08, critMultBonus:1.0, poison:false },
+      sword: { icon:'⚔️', dmgMin:2, dmgMax:5,  specMin:10, specMax:16, critBonus:0.05,  critMultBonus:0,   poison:false, bolts:1 },
+      arrow: { icon:'🏹', dmgMin:1, dmgMax:3,  specMin:2,  specMax:4,  critBonus:-0.05, critMultBonus:0,   poison:true, poisonTicks:3, poisonDmg:2, specPoisonTicks:7, specPoisonDmg:3, bolts:1 },
+      axe:   { icon:'🪓', dmgMin:2, dmgMax:8,  specMin:14, specMax:24, critBonus:-0.08, critMultBonus:1.0, poison:false, bolts:1 },
+      wand:  { icon:'🪄', dmgMin:1, dmgMax:10, specMin:4,  specMax:10, critBonus:0,     critMultBonus:0.3, poison:false, bolts:3 },
     };
     const MAX_HP       = 150;
     const ROUNDS_TO_WIN = 3;
@@ -428,7 +441,7 @@
     function pickWeapon(who, w) {
       if (audioCtx.state === 'suspended') audioCtx.resume();
       weapon[who] = w;
-      ['sword','arrow','axe'].forEach(k => {
+      ['sword','arrow','axe','wand'].forEach(k => {
         $(`${who}-btn-${k}`).classList.toggle('selected', k === w);
         $(`${who}-btn-${k}`).classList.toggle('locked',   k !== w);
       });
@@ -438,7 +451,7 @@
     function showWeaponScreen() {
       weapon = { ford: null, finn: null };
       ['ford','finn'].forEach(who => {
-        ['sword','arrow','axe'].forEach(k => $(`${who}-btn-${k}`).classList.remove('selected','locked'));
+        ['sword','arrow','axe','wand'].forEach(k => $(`${who}-btn-${k}`).classList.remove('selected','locked'));
         // reset allocation each round
         allocation[who] = { ...DEFAULT_ALLOC };
         pointsLeft[who] = TOTAL_PTS - (DEFAULT_ALLOC.crit + DEFAULT_ALLOC.power + DEFAULT_ALLOC.charge);
@@ -613,17 +626,16 @@
     }
 
     // ── Core hit ──
-    function doHit(attacker, isSpecial) {
+    function fireSingleHit(attacker, defender, w, isSpecial) {
       if (gameOver || !roundActive) return;
-      const defender = attacker==='ford' ? 'finn' : 'ford';
-      const w = WEAPONS[weapon[attacker]];
       const defZone = defender==='ford' ? fordZone : finnZone;
       const {isCrit, mult} = rollCrit(attacker);
       const base = isSpecial
         ? Math.floor(Math.random()*(w.specMax-w.specMin+1))+w.specMin
         : Math.floor(Math.random()*(w.dmgMax-w.dmgMin+1))+w.dmgMin;
       const dmg  = Math.round(base * mult);
-      const type = isCrit ? 'crit' : isSpecial ? 'special' : 'normal';
+      const isWand = weapon[attacker] === 'wand';
+      const type = isCrit ? 'crit' : isWand ? 'magic' : isSpecial ? 'special' : 'normal';
       hp[defender] -= dmg;
       playHit(isSpecial, isCrit); shakeScreen(isSpecial||isCrit);
       flashZone($(`${defender}-flash`), isSpecial||isCrit);
@@ -636,6 +648,16 @@
         applyPoison(defender, ticks, pdmg);
       }
       if (hp[defender] <= 0) endRound(attacker);
+    }
+
+    function doHit(attacker, isSpecial) {
+      if (gameOver || !roundActive) return;
+      const defender = attacker==='ford' ? 'finn' : 'ford';
+      const w     = WEAPONS[weapon[attacker]];
+      const bolts = isSpecial ? w.bolts : 1;
+      for (let i = 0; i < bolts; i++) {
+        setTimeout(() => fireSingleHit(attacker, defender, w, isSpecial), i * 180);
+      }
     }
 
     // ── Touch ──
