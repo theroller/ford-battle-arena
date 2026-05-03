@@ -106,19 +106,6 @@
     .poison-label { font-size: clamp(13px,2.8vw,19px); font-weight: 900; color: #66bb6a; letter-spacing: 2px; pointer-events: none; margin-top: 6px; animation: poison-pulse 0.6s ease-in-out infinite alternate; }
     @keyframes poison-pulse { from{opacity:1} to{opacity:0.35} }
 
-    /* ── POWER SPOT ── */
-    .power-spot {
-      position: absolute; width: 64px; height: 64px; border-radius: 50%;
-      background: radial-gradient(circle, #fff8dc 0%, rgba(255,215,0,0.5) 50%, transparent 100%);
-      border: 3px solid #ffd700; box-shadow: 0 0 18px #ffd700, 0 0 36px rgba(255,215,0,0.4);
-      cursor: pointer; z-index: 10; animation: spot-pulse 0.45s ease-in-out infinite alternate;
-    }
-    @keyframes spot-pulse { from{transform:scale(1);box-shadow:0 0 18px #ffd700,0 0 36px rgba(255,215,0,.4)} to{transform:scale(1.22);box-shadow:0 0 30px #ffd700,0 0 60px rgba(255,215,0,.7)} }
-    .power-spot.spot-hit  { animation: spot-hit-anim  .35s ease-out forwards; pointer-events: none; }
-    .power-spot.spot-miss { animation: spot-miss-anim .35s ease-out forwards; pointer-events: none; }
-    @keyframes spot-hit-anim  { 0%{opacity:1;transform:scale(1.2)} 100%{opacity:0;transform:scale(3)} }
-    @keyframes spot-miss-anim { 0%{opacity:1;transform:scale(1)}   100%{opacity:0;transform:scale(0.2)} }
-
     /* ── CHARGE BAR ── */
     .charge-track { position: absolute; bottom: 18px; left: 8%; right: 8%; height: 10px; background: rgba(255,255,255,0.07); border-radius: 5px; overflow: hidden; pointer-events: none; }
     .charge-fill  { height: 100%; width: 0%; border-radius: 5px; }
@@ -335,7 +322,7 @@
     </div>
   </div>
 
-  <div id="version-tag">v2.0</div>
+  <div id="version-tag">v2.1</div>
 
   <!-- Win screen -->
   <div id="win-screen">
@@ -371,15 +358,13 @@
     }
 
     const WEAPONS = {
-      sword: { icon:'⚔️', dmgMin:3, dmgMax:7,  weakMin:1, weakMax:2, specMin:12, specMax:20, critBonus:0.05,  critMultBonus:0,   poison:false, bolts:1 },
-      arrow: { icon:'🏹', dmgMin:1, dmgMax:3,  weakMin:1, weakMax:1, specMin:2,  specMax:4,  critBonus:-0.05, critMultBonus:0,   poison:true, poisonTicks:3, poisonDmg:2, specPoisonTicks:7, specPoisonDmg:3, bolts:1 },
-      axe:   { icon:'🪓', dmgMin:2, dmgMax:8,  weakMin:1, weakMax:3, specMin:14, specMax:24, critBonus:-0.08, critMultBonus:1.0, poison:false, bolts:1 },
-      wand:  { icon:'🪄', dmgMin:2, dmgMax:7,  weakMin:1, weakMax:2, specMin:2,  specMax:8,  critBonus:0,     critMultBonus:0.3, poison:false, bolts:3 },
+      sword: { icon:'⚔️', dmgMin:3, dmgMax:7,  specMin:12, specMax:20, critBonus:0.05,  critMultBonus:0,   poison:false, bolts:1 },
+      arrow: { icon:'🏹', dmgMin:1, dmgMax:3,  specMin:2,  specMax:4,  critBonus:-0.05, critMultBonus:0,   poison:true, poisonTicks:3, poisonDmg:2, specPoisonTicks:7, specPoisonDmg:3, bolts:1 },
+      axe:   { icon:'🪓', dmgMin:2, dmgMax:8,  specMin:14, specMax:24, critBonus:-0.08, critMultBonus:1.0, poison:false, bolts:1 },
+      wand:  { icon:'🪄', dmgMin:2, dmgMax:7,  specMin:2,  specMax:8,  critBonus:0,     critMultBonus:0.3, poison:false, bolts:3 },
     };
     const MAX_HP       = 150;
     const ROUNDS_TO_WIN = 3;
-    const SPOT_DRIFT_MIN = 5000;   // ms between automatic spot moves
-    const SPOT_DRIFT_MAX = 9000;
 
     // ── Audio ──
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -423,8 +408,6 @@
     let chargeTimer    = { ford:null, finn:null };
     let chargeFrame    = { ford:null, finn:null };
     let chargeFired    = { ford:false,finn:false };
-    let spotTimeout    = { ford:null, finn:null };
-    let activeSpot     = { ford:null, finn:null };
 
     const $ = id => document.getElementById(id);
     const fordZone = $('ford-zone'), finnZone = $('finn-zone'), arena = $('arena');
@@ -492,8 +475,8 @@
       $('finn-weapon-icon').textContent = WEAPONS[weapon.finn].icon;
       $('ford-char-w').textContent = WEAPONS[weapon.ford].icon;
       $('finn-char-w').textContent = WEAPONS[weapon.finn].icon;
-      $('ford-tap-hint').textContent = '✨ FULL HIT  ·  TAP = WEAK  ·  HOLD = ⚡';
-      $('finn-tap-hint').textContent = '✨ FULL HIT  ·  TAP = WEAK  ·  HOLD = ⚡';
+      $('ford-tap-hint').textContent = 'TAP = ATTACK  ·  HOLD = ⚡ SPECIAL';
+      $('finn-tap-hint').textContent = 'TAP = ATTACK  ·  HOLD = ⚡ SPECIAL';
       roundActive = false;  // block input during countdown
 
       const overlay = $('countdown-overlay');
@@ -522,50 +505,6 @@
 
     function startFight() {
       roundActive = true;
-      initSpot('ford');
-      initSpot('finn');
-    }
-
-    // ── Power spots (always-on) ──
-    function initSpot(who) {
-      const zone = who === 'ford' ? fordZone : finnZone;
-      const el   = document.createElement('div');
-      el.className = 'power-spot';
-      zone.appendChild(el);
-      activeSpot[who] = el;
-      placeSpot(who);
-      function onTap(e) {
-        e.preventDefault(); e.stopPropagation();
-        if (gameOver || !roundActive) return;
-        playSpotHit();
-        placeSpot(who);          // move it after a hit
-        doHit(who, false);       // full normal hit
-      }
-      el.addEventListener('touchstart', onTap, { passive:false });
-      el.addEventListener('mousedown',  onTap);
-      scheduleDrift(who);
-    }
-    function placeSpot(who) {
-      const el   = activeSpot[who]; if (!el) return;
-      const zone = who === 'ford' ? fordZone : finnZone;
-      const sz=64, zW=zone.offsetWidth, zH=zone.offsetHeight;
-      const xMin = who==='ford' ? zW*.10 : zW*.30;
-      const xMax = who==='ford' ? zW*.68 : zW*.88;
-      el.style.left = (xMin + Math.random()*(xMax-xMin) - sz/2) + 'px';
-      el.style.top  = (zH*.14 + Math.random()*(zH*.62) - sz/2) + 'px';
-    }
-    function scheduleDrift(who) {
-      clearTimeout(spotTimeout[who]);
-      const delay = SPOT_DRIFT_MIN + Math.random()*(SPOT_DRIFT_MAX-SPOT_DRIFT_MIN);
-      spotTimeout[who] = setTimeout(() => {
-        if (!gameOver && roundActive) { placeSpot(who); scheduleDrift(who); }
-      }, delay);
-    }
-    function stopSpots() {
-      clearTimeout(spotTimeout.ford); clearTimeout(spotTimeout.finn);
-      ['ford','finn'].forEach(who => {
-        if (activeSpot[who]) { activeSpot[who].remove(); activeSpot[who]=null; }
-      });
     }
 
     // ── HUD ──
@@ -660,22 +599,6 @@
       el.addEventListener('animationend', () => el.classList.remove(`char-${type}-${who}`), { once:true });
     }
 
-    // ── Weak hit (tap anywhere except spot) ──
-    function doWeakHit(attacker) {
-      if (gameOver || !roundActive) return;
-      const defender = attacker==='ford' ? 'finn' : 'ford';
-      const w        = WEAPONS[weapon[attacker]];
-      const defZone  = defender==='ford' ? fordZone : finnZone;
-      const dmg      = Math.floor(Math.random()*(w.weakMax-w.weakMin+1))+w.weakMin;
-      hp[defender]  -= dmg;
-      charAnim(attacker, 'atk'); charAnim(defender, 'hit');
-      playHit(false, false); shakeScreen(false);
-      flashZone($(`${defender}-flash`), false);
-      spawnDmg(defZone, dmg, 'normal');
-      updateHp(defender);
-      if (hp[defender] <= 0) endRound(attacker);
-    }
-
     // ── Core hit ──
     function fireSingleHit(attacker, defender, w, isSpecial) {
       if (gameOver || !roundActive) return;
@@ -730,13 +653,13 @@
         e.preventDefault();
         if (!chargeStart[who]) return;
         if (chargeFired[who]) { resetCharge(who); return; }
-        clearTimeout(chargeTimer[who]); resetCharge(who); chargeFired[who]=true; doWeakHit(who);
+        clearTimeout(chargeTimer[who]); resetCharge(who); chargeFired[who]=true; doHit(who, false);
       };
     }
 
     // ── Round / match ──
     function endRound(winner) {
-      gameOver=true; roundActive=false; stopSpots();
+      gameOver=true; roundActive=false;
       clearInterval(poisonInterval.ford); clearInterval(poisonInterval.finn);
       $('ford-poison-label').style.display='none'; $('finn-poison-label').style.display='none';
       wins[winner]++; updateRoundHUD(); buildPips($('win-pips'), true);
