@@ -322,7 +322,7 @@
     </div>
   </div>
 
-  <div id="version-tag">v2.1</div>
+  <div id="version-tag">v2.2</div>
 
   <!-- Win screen -->
   <div id="win-screen">
@@ -341,7 +341,10 @@
     };
     const MAX_LEVEL   = 4;   // max per stat
     const TOTAL_PTS   = 5;   // total points per player
-    const DEFAULT_ALLOC = { crit:1, power:1, charge:1 }; // uses 3, leaves 2 free
+    const CHAR_DEFAULTS = {
+      ford: { crit:0, power:2, charge:3 },  // THE SPEEDSTER — charges hard and fast
+      finn: { crit:3, power:1, charge:1 },  // THE LUCKY ONE — high crit, crafty
+    };
 
     const BUILD_TITLES = [
       { stat:'crit',   min:3, title:'THE LUCKY ONE' },
@@ -396,13 +399,10 @@
     let roundActive = false;   // blocks input during countdown
     let weapon   = { ford: null, finn: null };
     let allocation = {
-      ford: { ...DEFAULT_ALLOC },
-      finn: { ...DEFAULT_ALLOC },
+      ford: { ...CHAR_DEFAULTS.ford },
+      finn: { ...CHAR_DEFAULTS.finn },
     };
-    let pointsLeft = {
-      ford: TOTAL_PTS - (DEFAULT_ALLOC.crit + DEFAULT_ALLOC.power + DEFAULT_ALLOC.charge),
-      finn: TOTAL_PTS - (DEFAULT_ALLOC.crit + DEFAULT_ALLOC.power + DEFAULT_ALLOC.charge),
-    };
+    let pointsLeft = { ford: 0, finn: 0 };
     let poisonInterval = { ford:null, finn:null };
     let chargeStart    = { ford:null, finn:null };
     let chargeTimer    = { ford:null, finn:null };
@@ -684,6 +684,8 @@
     }
     function resetMatch() {
       wins={ford:0,finn:0}; round=1; hp={ford:MAX_HP,finn:MAX_HP}; gameOver=false;
+      allocation={ ford:{...CHAR_DEFAULTS.ford}, finn:{...CHAR_DEFAULTS.finn} };
+      pointsLeft={ ford:0, finn:0 };
       updateHp('ford'); updateHp('finn'); updateRoundHUD();
       $('win-screen').classList.remove('show'); showWeaponScreen();
     }
