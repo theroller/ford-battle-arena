@@ -14,28 +14,50 @@
       user-select: none;
     }
 
-    /* ── HUD ── */
+    /* ── HUD: health bars ── */
     #hud {
       display: flex; align-items: center;
-      height: 80px; background: #000; padding: 12px 16px; gap: 12px;
+      height: 72px; background: #000; padding: 10px 12px; gap: 10px;
       flex-shrink: 0;
     }
     .hp-bar-wrapper { flex: 1; }
     .hp-label {
-      font-size: 13px; font-weight: 900; margin-bottom: 4px;
+      font-size: 12px; font-weight: 900; margin-bottom: 4px;
       text-align: center; letter-spacing: 1px;
     }
     #ford-hp-label { color: #ff6b6b; }
     #finn-hp-label { color: #64b5f6; }
     .hp-track {
-      width: 100%; height: 26px; background: #333;
-      border-radius: 13px; overflow: hidden;
+      width: 100%; height: 24px; background: #333;
+      border-radius: 12px; overflow: hidden;
     }
-    .hp-fill { height: 100%; border-radius: 13px; transition: width 0.1s ease; }
+    .hp-fill { height: 100%; border-radius: 12px; transition: width 0.1s ease; }
     #ford-hp-fill { background: linear-gradient(90deg, #c0392b, #ff6b6b); width: 100%; }
     #finn-hp-fill { background: linear-gradient(90deg, #1565c0, #64b5f6); width: 100%; }
 
-    #vs-badge { font-size: 28px; flex-shrink: 0; }
+    /* ── Round score panel (centre of HUD) ── */
+    #round-panel {
+      flex-shrink: 0; display: flex; flex-direction: column;
+      align-items: center; gap: 2px; min-width: 90px;
+    }
+    #round-label {
+      font-size: 10px; font-weight: 900; color: #888; letter-spacing: 2px;
+    }
+    #round-score {
+      font-size: 26px; font-weight: 900; color: #fff; letter-spacing: 4px;
+      line-height: 1;
+    }
+    #round-pips {
+      display: flex; gap: 4px; align-items: center;
+    }
+    .pip {
+      width: 10px; height: 10px; border-radius: 50%;
+      border: 2px solid #555; background: transparent;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .pip.ford-won  { background: #ff6b6b; border-color: #ff6b6b; }
+    .pip.finn-won  { background: #64b5f6; border-color: #64b5f6; }
+    .pip-divider   { width: 2px; height: 12px; background: #444; border-radius: 1px; }
 
     /* ── ARENA ── */
     #arena { flex: 1; display: flex; }
@@ -45,8 +67,8 @@
       align-items: center; justify-content: center;
       position: relative; overflow: hidden; cursor: pointer;
     }
-    #ford-zone  { background: linear-gradient(170deg, #1a0505, #2d0a0a); border-right: 3px solid #333; }
-    #finn-zone  { background: linear-gradient(170deg, #050518, #0a0a2d); }
+    #ford-zone { background: linear-gradient(170deg, #1a0505, #2d0a0a); border-right: 3px solid #333; }
+    #finn-zone { background: linear-gradient(170deg, #050518, #0a0a2d); }
 
     .fighter-zone:active { filter: brightness(1.4); }
 
@@ -59,8 +81,8 @@
     #finn-zone .fighter-name { color: #64b5f6; }
 
     .weapon-icon {
-      font-size: clamp(60px, 14vw, 96px);
-      margin-bottom: 16px; pointer-events: none;
+      font-size: clamp(60px, 14vw, 96px); margin-bottom: 16px;
+      pointer-events: none;
       filter: drop-shadow(0 0 14px rgba(255,255,255,0.35));
     }
 
@@ -70,7 +92,7 @@
       pointer-events: none;
     }
 
-    /* ── HIT FLASH OVERLAY ── */
+    /* ── HIT FLASH ── */
     .hit-flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
     #ford-zone .hit-flash { background: radial-gradient(circle, rgba(255,100,100,0.55), transparent 70%); }
     #finn-zone .hit-flash { background: radial-gradient(circle, rgba(100,181,246,0.55), transparent 70%); }
@@ -103,14 +125,14 @@
     #win-screen {
       position: fixed; inset: 0; display: none;
       flex-direction: column; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.88); z-index: 100;
+      background: rgba(0,0,0,0.9); z-index: 100;
     }
     #win-screen.show { display: flex; }
 
     #win-text {
-      font-size: clamp(48px, 12vw, 80px); font-weight: 900; color: #ffd700;
+      font-size: clamp(44px, 11vw, 76px); font-weight: 900; color: #ffd700;
       text-shadow: 0 0 40px #ffd700, 0 4px 0 #7a5800;
-      margin-bottom: 12px; text-align: center; padding: 0 20px;
+      margin-bottom: 10px; text-align: center; padding: 0 20px;
       animation: win-pulse 0.7s ease-in-out infinite alternate;
     }
     @keyframes win-pulse {
@@ -119,18 +141,31 @@
     }
 
     #win-sub {
-      font-size: clamp(18px, 4vw, 28px); color: #fff; opacity: 0.75;
-      margin-bottom: 52px; text-align: center; padding: 0 20px;
+      font-size: clamp(16px, 4vw, 26px); color: #fff; opacity: 0.8;
+      margin-bottom: 20px; text-align: center; padding: 0 20px;
     }
 
-    #play-again {
-      font-size: clamp(22px, 5vw, 32px); font-weight: 900; color: #000;
+    /* Round pip display on win screen */
+    #win-pips {
+      display: flex; gap: 10px; align-items: center;
+      margin-bottom: 44px;
+    }
+    .win-pip {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 3px solid #555; background: transparent;
+    }
+    .win-pip.ford-won  { background: #ff6b6b; border-color: #ff6b6b; }
+    .win-pip.finn-won  { background: #64b5f6; border-color: #64b5f6; }
+    .win-pip-divider   { width: 3px; height: 22px; background: #555; border-radius: 2px; }
+
+    #win-btn {
+      font-size: clamp(22px, 5vw, 30px); font-weight: 900; color: #000;
       background: #ffd700; border: none; border-radius: 20px;
-      padding: 20px 56px; cursor: pointer; letter-spacing: 2px;
+      padding: 20px 52px; cursor: pointer; letter-spacing: 2px;
       box-shadow: 0 7px 0 #9a7200;
       transition: transform 0.08s, box-shadow 0.08s;
     }
-    #play-again:active { transform: translateY(5px); box-shadow: 0 2px 0 #9a7200; }
+    #win-btn:active { transform: translateY(5px); box-shadow: 0 2px 0 #9a7200; }
   </style>
 </head>
 <body>
@@ -141,7 +176,15 @@
       <div class="hp-label" id="ford-hp-label">FORD  ❤️  100</div>
       <div class="hp-track"><div class="hp-fill" id="ford-hp-fill"></div></div>
     </div>
-    <div id="vs-badge">⚔️</div>
+
+    <div id="round-panel">
+      <div id="round-label">ROUND 1</div>
+      <div id="round-score">0 – 0</div>
+      <div id="round-pips">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
     <div class="hp-bar-wrapper">
       <div class="hp-label" id="finn-hp-label">FINN  ❤️  100</div>
       <div class="hp-track"><div class="hp-fill" id="finn-hp-fill"></div></div>
@@ -164,64 +207,68 @@
     </div>
   </div>
 
-  <!-- Win screen -->
+  <!-- Win / round screen -->
   <div id="win-screen">
-    <div id="win-text">FORD WINS! 🏆</div>
-    <div id="win-sub">💀 Finn has been defeated! 💀</div>
-    <button id="play-again">⚔️  PLAY AGAIN  ⚔️</button>
+    <div id="win-text">FORD WINS!</div>
+    <div id="win-sub">Round 1 goes to Ford!</div>
+    <div id="win-pips"></div>
+    <button id="win-btn">NEXT ROUND ▶</button>
   </div>
 
   <script>
-    // ── Audio (Web Audio API — no CDN needed, works offline) ──
+    // ── Audio ──
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function playHitSound() {
-      const osc  = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      const dist = audioCtx.createWaveShaper();
-
-      // Distortion curve → metallic sword-clash tone
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain(), dist = audioCtx.createWaveShaper();
       const curve = new Float32Array(256);
       for (let i = 0; i < 256; i++) {
         const x = (i * 2) / 256 - 1;
         curve[i] = (Math.PI + 200) * x / (Math.PI + 200 * Math.abs(x));
       }
       dist.curve = curve;
-
-      osc.connect(dist);
-      dist.connect(gain);
-      gain.connect(audioCtx.destination);
-
+      osc.connect(dist); dist.connect(gain); gain.connect(audioCtx.destination);
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(160 + Math.random() * 140, audioCtx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(55, audioCtx.currentTime + 0.18);
       gain.gain.setValueAtTime(0.55, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
-      osc.start(audioCtx.currentTime);
-      osc.stop(audioCtx.currentTime + 0.28);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.28);
     }
 
-    function playWinSound() {
-      [523, 659, 784, 1047].forEach((freq, i) => {
-        const osc  = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        const t = audioCtx.currentTime + i * 0.13;
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(freq, t);
-        gain.gain.setValueAtTime(0.28, t);
-        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
-        osc.start(t);
-        osc.stop(t + 0.45);
+    function playRoundWinSound() {
+      [392, 523, 659].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        const t = audioCtx.currentTime + i * 0.14;
+        osc.type = 'square'; osc.frequency.setValueAtTime(freq, t);
+        gain.gain.setValueAtTime(0.25, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+        osc.start(t); osc.stop(t + 0.4);
       });
     }
 
-    // ── Game state ──
-    const MAX_HP = 100;
-    let hp = { ford: MAX_HP, finn: MAX_HP };
+    function playMatchWinSound() {
+      [523, 659, 784, 784, 1047].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        const t = audioCtx.currentTime + i * 0.13;
+        osc.type = 'square'; osc.frequency.setValueAtTime(freq, t);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+        osc.start(t); osc.stop(t + 0.5);
+      });
+    }
+
+    // ── State ──
+    const MAX_HP    = 100;
+    const ROUNDS_TO_WIN = 3;   // first to 3 wins the best-of-5
+    let hp     = { ford: MAX_HP, finn: MAX_HP };
+    let wins   = { ford: 0, finn: 0 };
+    let round  = 1;
     let gameOver = false;
 
+    // ── DOM refs ──
     const fordZone    = document.getElementById('ford-zone');
     const finnZone    = document.getElementById('finn-zone');
     const fordHpFill  = document.getElementById('ford-hp-fill');
@@ -234,7 +281,13 @@
     const winScreen   = document.getElementById('win-screen');
     const winText     = document.getElementById('win-text');
     const winSub      = document.getElementById('win-sub');
+    const winPips     = document.getElementById('win-pips');
+    const winBtn      = document.getElementById('win-btn');
+    const roundLabel  = document.getElementById('round-label');
+    const roundScore  = document.getElementById('round-score');
+    const roundPips   = document.getElementById('round-pips');
 
+    // ── HUD updates ──
     function updateHpBar(who) {
       const pct   = Math.max(0, hp[who]) / MAX_HP * 100;
       const fill  = who === 'ford' ? fordHpFill  : finnHpFill;
@@ -243,6 +296,34 @@
       label.textContent = (who === 'ford' ? 'FORD  ❤️  ' : 'FINN  ❤️  ') + Math.max(0, hp[who]);
     }
 
+    function buildPips(container, large) {
+      container.innerHTML = '';
+      const size = large ? 'win-pip' : 'pip';
+      const div  = large ? 'win-pip-divider' : 'pip-divider';
+
+      // Ford's 3 pip slots (left side)
+      for (let i = 0; i < ROUNDS_TO_WIN; i++) {
+        const p = document.createElement('div');
+        p.className = size + (i < wins.ford ? ' ford-won' : '');
+        container.appendChild(p);
+      }
+      const d = document.createElement('div'); d.className = div;
+      container.appendChild(d);
+      // Finn's 3 pip slots (right side)
+      for (let i = 0; i < ROUNDS_TO_WIN; i++) {
+        const p = document.createElement('div');
+        p.className = size + (i < wins.finn ? ' finn-won' : '');
+        container.appendChild(p);
+      }
+    }
+
+    function updateRoundHUD() {
+      roundLabel.textContent = 'ROUND ' + round;
+      roundScore.textContent = wins.ford + ' – ' + wins.finn;
+      buildPips(roundPips, false);
+    }
+
+    // ── Combat ──
     function spawnDamageNumber(zone, dmg) {
       const el = document.createElement('div');
       el.className = 'damage-pop';
@@ -254,7 +335,7 @@
 
     function flashZone(flashEl) {
       flashEl.classList.remove('flash');
-      void flashEl.offsetWidth; // force reflow to restart animation
+      void flashEl.offsetWidth;
       flashEl.classList.add('flash');
     }
 
@@ -267,53 +348,83 @@
 
     function attack(attacker) {
       if (gameOver) return;
-      if (audioCtx.state === 'suspended') audioCtx.resume(); // iOS unlock
+      if (audioCtx.state === 'suspended') audioCtx.resume();
 
-      const defender     = attacker === 'ford' ? 'finn' : 'ford';
-      const dmg          = Math.floor(Math.random() * 5) + 3; // 3–7
-      hp[defender]      -= dmg;
+      const defender = attacker === 'ford' ? 'finn' : 'ford';
+      const dmg = Math.floor(Math.random() * 5) + 3;
+      hp[defender] -= dmg;
 
       playHitSound();
       shakeScreen();
-
-      const defZone  = defender === 'ford' ? fordZone  : finnZone;
-      const defFlash = defender === 'ford' ? fordFlash : finnFlash;
-      flashZone(defFlash);
-      spawnDamageNumber(defZone, dmg);
+      flashZone(defender === 'ford' ? fordFlash : finnFlash);
+      spawnDamageNumber(defender === 'ford' ? fordZone : finnZone, dmg);
       updateHpBar(defender);
 
-      if (hp[defender] <= 0) endGame(attacker);
+      if (hp[defender] <= 0) endRound(attacker);
     }
 
-    function endGame(winner) {
+    // ── Round / match logic ──
+    function endRound(roundWinner) {
       gameOver = true;
-      playWinSound();
-      const loser = winner === 'ford' ? 'Finn' : 'Ford';
-      winText.textContent = winner.toUpperCase() + ' WINS! 🏆';
-      winSub.textContent  = '💀 ' + loser + ' has been defeated! 💀';
+      wins[roundWinner]++;
+      updateRoundHUD();
+      buildPips(winPips, true);
+
+      const loser = roundWinner === 'ford' ? 'Finn' : 'Ford';
+
+      if (wins[roundWinner] >= ROUNDS_TO_WIN) {
+        // Match over
+        playMatchWinSound();
+        winText.textContent = roundWinner.toUpperCase() + ' WINS THE MATCH! 🏆';
+        winSub.textContent  = '💀 ' + loser + ' is defeated ' + wins[roundWinner] + ' – ' + wins[loser.toLowerCase()] + '!';
+        winBtn.textContent  = '⚔️  PLAY AGAIN  ⚔️';
+        winBtn.onclick      = resetMatch;
+      } else {
+        // Round over, match continues
+        playRoundWinSound();
+        const next = wins.ford + wins.finn + 1;
+        winText.textContent = roundWinner.toUpperCase() + ' WINS ROUND ' + round + '!';
+        winSub.textContent  = '💀 ' + loser + ' is down! Round ' + next + ' up next…';
+        winBtn.textContent  = '▶  NEXT ROUND  ▶';
+        winBtn.onclick      = nextRound;
+      }
+
       winScreen.classList.add('show');
     }
 
-    function resetGame() {
+    function nextRound() {
+      round++;
       hp = { ford: MAX_HP, finn: MAX_HP };
       gameOver = false;
       updateHpBar('ford');
       updateHpBar('finn');
+      updateRoundHUD();
       winScreen.classList.remove('show');
     }
 
-    // ── Input: touch (primary, iPad) + click (desktop testing) ──
+    function resetMatch() {
+      wins  = { ford: 0, finn: 0 };
+      round = 1;
+      hp    = { ford: MAX_HP, finn: MAX_HP };
+      gameOver = false;
+      updateHpBar('ford');
+      updateHpBar('finn');
+      updateRoundHUD();
+      winScreen.classList.remove('show');
+    }
+
+    // ── Input ──
     function onAttack(who) {
       return function (e) { e.preventDefault(); attack(who); };
     }
-
     fordZone.addEventListener('touchstart', onAttack('ford'), { passive: false });
     finnZone.addEventListener('touchstart', onAttack('finn'), { passive: false });
     fordZone.addEventListener('click', onAttack('ford'));
     finnZone.addEventListener('click', onAttack('finn'));
+    winBtn.addEventListener('touchstart', (e) => { e.preventDefault(); winBtn.onclick(); });
 
-    document.getElementById('play-again').addEventListener('touchstart', (e) => { e.preventDefault(); resetGame(); });
-    document.getElementById('play-again').addEventListener('click', resetGame);
+    // ── Init ──
+    updateRoundHUD();
   </script>
 </body>
 </html>
