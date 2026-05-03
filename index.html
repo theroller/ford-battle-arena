@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Ford vs Finn: Battle Arena</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      width: 100vw; height: 100vh; overflow: hidden;
+      display: flex; flex-direction: column;
+      background: #111; font-family: 'Arial Black', Arial, sans-serif;
+      user-select: none;
+    }
+
+    /* ── HUD ── */
+    #hud {
+      display: flex; align-items: center;
+      height: 80px; background: #000; padding: 12px 16px; gap: 12px;
+      flex-shrink: 0;
+    }
+    .hp-bar-wrapper { flex: 1; }
+    .hp-label {
+      font-size: 13px; font-weight: 900; margin-bottom: 4px;
+      text-align: center; letter-spacing: 1px;
+    }
+    #ford-hp-label { color: #ff6b6b; }
+    #finn-hp-label { color: #64b5f6; }
+    .hp-track {
+      width: 100%; height: 26px; background: #333;
+      border-radius: 13px; overflow: hidden;
+    }
+    .hp-fill { height: 100%; border-radius: 13px; transition: width 0.1s ease; }
+    #ford-hp-fill { background: linear-gradient(90deg, #c0392b, #ff6b6b); width: 100%; }
+    #finn-hp-fill { background: linear-gradient(90deg, #1565c0, #64b5f6); width: 100%; }
+
+    #vs-badge { font-size: 28px; flex-shrink: 0; }
+
+    /* ── ARENA ── */
+    #arena { flex: 1; display: flex; }
+
+    .fighter-zone {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; overflow: hidden; cursor: pointer;
+    }
+    #ford-zone  { background: linear-gradient(170deg, #1a0505, #2d0a0a); border-right: 3px solid #333; }
+    #finn-zone  { background: linear-gradient(170deg, #050518, #0a0a2d); }
+
+    .fighter-zone:active { filter: brightness(1.4); }
+
+    .fighter-name {
+      font-size: clamp(36px, 8vw, 64px); font-weight: 900;
+      letter-spacing: 3px; text-shadow: 0 0 24px currentColor;
+      margin-bottom: 12px; pointer-events: none;
+    }
+    #ford-zone .fighter-name { color: #ff6b6b; }
+    #finn-zone .fighter-name { color: #64b5f6; }
+
+    .weapon-icon {
+      font-size: clamp(60px, 14vw, 96px);
+      margin-bottom: 16px; pointer-events: none;
+      filter: drop-shadow(0 0 14px rgba(255,255,255,0.35));
+    }
+
+    .tap-hint {
+      font-size: clamp(14px, 3vw, 20px); font-weight: 900;
+      color: rgba(255,255,255,0.35); letter-spacing: 3px;
+      pointer-events: none;
+    }
+
+    /* ── HIT FLASH OVERLAY ── */
+    .hit-flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+    #ford-zone .hit-flash { background: radial-gradient(circle, rgba(255,100,100,0.55), transparent 70%); }
+    #finn-zone .hit-flash { background: radial-gradient(circle, rgba(100,181,246,0.55), transparent 70%); }
+    .hit-flash.flash { animation: flash-anim 0.18s ease-out forwards; }
+    @keyframes flash-anim { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+    /* ── DAMAGE NUMBERS ── */
+    .damage-pop {
+      position: absolute; font-size: clamp(40px, 9vw, 60px); font-weight: 900;
+      color: #fff; text-shadow: 0 2px 8px #000;
+      pointer-events: none; top: 35%;
+      animation: damage-float 0.65s ease-out forwards;
+    }
+    @keyframes damage-float {
+      0%   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.5); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-90px) scale(0.8); }
+    }
+
+    /* ── SCREEN SHAKE ── */
+    @keyframes shake {
+      0%,100% { transform: translate(0); }
+      20%     { transform: translate(-7px, 4px); }
+      40%     { transform: translate(7px, -4px); }
+      60%     { transform: translate(-5px, 5px); }
+      80%     { transform: translate(5px, -3px); }
+    }
+    .shake { animation: shake 0.22s ease-out; }
+
+    /* ── WIN SCREEN ── */
+    #win-screen {
+      position: fixed; inset: 0; display: none;
+      flex-direction: column; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.88); z-index: 100;
+    }
+    #win-screen.show { display: flex; }
+
+    #win-text {
+      font-size: clamp(48px, 12vw, 80px); font-weight: 900; color: #ffd700;
+      text-shadow: 0 0 40px #ffd700, 0 4px 0 #7a5800;
+      margin-bottom: 12px; text-align: center; padding: 0 20px;
+      animation: win-pulse 0.7s ease-in-out infinite alternate;
+    }
+    @keyframes win-pulse {
+      from { transform: scale(1); }
+      to   { transform: scale(1.06); }
+    }
+
+    #win-sub {
+      font-size: clamp(18px, 4vw, 28px); color: #fff; opacity: 0.75;
+      margin-bottom: 52px; text-align: center; padding: 0 20px;
+    }
+
+    #play-again {
+      font-size: clamp(22px, 5vw, 32px); font-weight: 900; color: #000;
+      background: #ffd700; border: none; border-radius: 20px;
+      padding: 20px 56px; cursor: pointer; letter-spacing: 2px;
+      box-shadow: 0 7px 0 #9a7200;
+      transition: transform 0.08s, box-shadow 0.08s;
+    }
+    #play-again:active { transform: translateY(5px); box-shadow: 0 2px 0 #9a7200; }
+  </style>
+</head>
+<body>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hp-bar-wrapper">
+      <div class="hp-label" id="ford-hp-label">FORD  ❤️  100</div>
+      <div class="hp-track"><div class="hp-fill" id="ford-hp-fill"></div></div>
+    </div>
+    <div id="vs-badge">⚔️</div>
+    <div class="hp-bar-wrapper">
+      <div class="hp-label" id="finn-hp-label">FINN  ❤️  100</div>
+      <div class="hp-track"><div class="hp-fill" id="finn-hp-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- Battle arena -->
+  <div id="arena">
+    <div class="fighter-zone" id="ford-zone">
+      <div class="hit-flash" id="ford-flash"></div>
+      <div class="fighter-name">FORD</div>
+      <div class="weapon-icon">⚔️</div>
+      <div class="tap-hint">TAP TO ATTACK</div>
+    </div>
+    <div class="fighter-zone" id="finn-zone">
+      <div class="hit-flash" id="finn-flash"></div>
+      <div class="fighter-name">FINN</div>
+      <div class="weapon-icon">🛡️</div>
+      <div class="tap-hint">TAP TO ATTACK</div>
+    </div>
+  </div>
+
+  <!-- Win screen -->
+  <div id="win-screen">
+    <div id="win-text">FORD WINS! 🏆</div>
+    <div id="win-sub">💀 Finn has been defeated! 💀</div>
+    <button id="play-again">⚔️  PLAY AGAIN  ⚔️</button>
+  </div>
+
+  <script>
+    // ── Audio (Web Audio API — no CDN needed, works offline) ──
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playHitSound() {
+      const osc  = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const dist = audioCtx.createWaveShaper();
+
+      // Distortion curve → metallic sword-clash tone
+      const curve = new Float32Array(256);
+      for (let i = 0; i < 256; i++) {
+        const x = (i * 2) / 256 - 1;
+        curve[i] = (Math.PI + 200) * x / (Math.PI + 200 * Math.abs(x));
+      }
+      dist.curve = curve;
+
+      osc.connect(dist);
+      dist.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(160 + Math.random() * 140, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(55, audioCtx.currentTime + 0.18);
+      gain.gain.setValueAtTime(0.55, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.28);
+    }
+
+    function playWinSound() {
+      [523, 659, 784, 1047].forEach((freq, i) => {
+        const osc  = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const t = audioCtx.currentTime + i * 0.13;
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(freq, t);
+        gain.gain.setValueAtTime(0.28, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
+        osc.start(t);
+        osc.stop(t + 0.45);
+      });
+    }
+
+    // ── Game state ──
+    const MAX_HP = 100;
+    let hp = { ford: MAX_HP, finn: MAX_HP };
+    let gameOver = false;
+
+    const fordZone    = document.getElementById('ford-zone');
+    const finnZone    = document.getElementById('finn-zone');
+    const fordHpFill  = document.getElementById('ford-hp-fill');
+    const finnHpFill  = document.getElementById('finn-hp-fill');
+    const fordHpLabel = document.getElementById('ford-hp-label');
+    const finnHpLabel = document.getElementById('finn-hp-label');
+    const fordFlash   = document.getElementById('ford-flash');
+    const finnFlash   = document.getElementById('finn-flash');
+    const arena       = document.getElementById('arena');
+    const winScreen   = document.getElementById('win-screen');
+    const winText     = document.getElementById('win-text');
+    const winSub      = document.getElementById('win-sub');
+
+    function updateHpBar(who) {
+      const pct   = Math.max(0, hp[who]) / MAX_HP * 100;
+      const fill  = who === 'ford' ? fordHpFill  : finnHpFill;
+      const label = who === 'ford' ? fordHpLabel : finnHpLabel;
+      fill.style.width = pct + '%';
+      label.textContent = (who === 'ford' ? 'FORD  ❤️  ' : 'FINN  ❤️  ') + Math.max(0, hp[who]);
+    }
+
+    function spawnDamageNumber(zone, dmg) {
+      const el = document.createElement('div');
+      el.className = 'damage-pop';
+      el.textContent = '-' + dmg;
+      el.style.left = (25 + Math.random() * 50) + '%';
+      zone.appendChild(el);
+      el.addEventListener('animationend', () => el.remove());
+    }
+
+    function flashZone(flashEl) {
+      flashEl.classList.remove('flash');
+      void flashEl.offsetWidth; // force reflow to restart animation
+      flashEl.classList.add('flash');
+    }
+
+    function shakeScreen() {
+      arena.classList.remove('shake');
+      void arena.offsetWidth;
+      arena.classList.add('shake');
+      arena.addEventListener('animationend', () => arena.classList.remove('shake'), { once: true });
+    }
+
+    function attack(attacker) {
+      if (gameOver) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume(); // iOS unlock
+
+      const defender     = attacker === 'ford' ? 'finn' : 'ford';
+      const dmg          = Math.floor(Math.random() * 5) + 3; // 3–7
+      hp[defender]      -= dmg;
+
+      playHitSound();
+      shakeScreen();
+
+      const defZone  = defender === 'ford' ? fordZone  : finnZone;
+      const defFlash = defender === 'ford' ? fordFlash : finnFlash;
+      flashZone(defFlash);
+      spawnDamageNumber(defZone, dmg);
+      updateHpBar(defender);
+
+      if (hp[defender] <= 0) endGame(attacker);
+    }
+
+    function endGame(winner) {
+      gameOver = true;
+      playWinSound();
+      const loser = winner === 'ford' ? 'Finn' : 'Ford';
+      winText.textContent = winner.toUpperCase() + ' WINS! 🏆';
+      winSub.textContent  = '💀 ' + loser + ' has been defeated! 💀';
+      winScreen.classList.add('show');
+    }
+
+    function resetGame() {
+      hp = { ford: MAX_HP, finn: MAX_HP };
+      gameOver = false;
+      updateHpBar('ford');
+      updateHpBar('finn');
+      winScreen.classList.remove('show');
+    }
+
+    // ── Input: touch (primary, iPad) + click (desktop testing) ──
+    function onAttack(who) {
+      return function (e) { e.preventDefault(); attack(who); };
+    }
+
+    fordZone.addEventListener('touchstart', onAttack('ford'), { passive: false });
+    finnZone.addEventListener('touchstart', onAttack('finn'), { passive: false });
+    fordZone.addEventListener('click', onAttack('ford'));
+    finnZone.addEventListener('click', onAttack('finn'));
+
+    document.getElementById('play-again').addEventListener('touchstart', (e) => { e.preventDefault(); resetGame(); });
+    document.getElementById('play-again').addEventListener('click', resetGame);
+  </script>
+</body>
+</html>
