@@ -452,9 +452,6 @@
       weapon = { ford: null, finn: null };
       ['ford','finn'].forEach(who => {
         ['sword','arrow','axe','wand'].forEach(k => $(`${who}-btn-${k}`).classList.remove('selected','locked'));
-        // reset allocation each round
-        allocation[who] = { ...DEFAULT_ALLOC };
-        pointsLeft[who] = TOTAL_PTS - (DEFAULT_ALLOC.crit + DEFAULT_ALLOC.power + DEFAULT_ALLOC.charge);
         renderAllocUI(who);
       });
       $('weapon-screen').classList.add('show');
