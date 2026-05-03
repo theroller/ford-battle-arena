@@ -30,17 +30,14 @@
     #round-panel { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 90px; }
     #round-label { font-size: 10px; font-weight: 900; color: #888; letter-spacing: 2px; }
     #round-score { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: 4px; line-height: 1; }
-    #round-pips { display: flex; gap: 4px; align-items: center; }
+    #round-pips  { display: flex; gap: 4px; align-items: center; }
     .pip { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #555; background: transparent; transition: background 0.2s; }
     .pip.ford-won { background: #ff6b6b; border-color: #ff6b6b; }
     .pip.finn-won { background: #64b5f6; border-color: #64b5f6; }
     .pip-divider  { width: 2px; height: 12px; background: #444; border-radius: 1px; }
 
     /* ── WEAPON SELECT ── */
-    #weapon-screen {
-      position: fixed; inset: 0; z-index: 200;
-      display: none; background: #0a0a0a;
-    }
+    #weapon-screen { position: fixed; inset: 0; z-index: 200; display: none; background: #0a0a0a; }
     #weapon-screen.show { display: flex; }
     .weapon-side {
       flex: 1; display: flex; flex-direction: column;
@@ -49,26 +46,18 @@
     }
     #ford-weapon-side { background: linear-gradient(170deg,#1a0505,#2d0a0a); border-right: 3px solid #333; }
     #finn-weapon-side { background: linear-gradient(170deg,#050518,#0a0a2d); }
-
-    .picker-name {
-      font-size: clamp(24px,6vw,44px); font-weight: 900; letter-spacing: 3px;
-      text-shadow: 0 0 20px currentColor; line-height: 1;
-    }
+    .picker-name  { font-size: clamp(24px,6vw,44px); font-weight: 900; letter-spacing: 3px; text-shadow: 0 0 20px currentColor; line-height: 1; }
+    .picker-title { font-size: clamp(10px,2.2vw,14px); color: #888; font-weight: 700; letter-spacing: 2px; }
     #ford-weapon-side .picker-name { color: #ff6b6b; }
     #finn-weapon-side .picker-name { color: #64b5f6; }
-    .picker-title { font-size: clamp(10px,2.2vw,14px); color: #888; font-weight: 700; letter-spacing: 2px; }
-
-    /* Stat bars */
     .stat-block { width: 92%; display: flex; flex-direction: column; gap: 5px; }
-    .stat-row { display: flex; align-items: center; gap: 6px; }
+    .stat-row   { display: flex; align-items: center; gap: 6px; }
     .stat-label { font-size: clamp(9px,2vw,12px); color: #aaa; font-weight: 900; letter-spacing: 1px; width: 72px; flex-shrink: 0; }
     .stat-track { flex: 1; height: 8px; background: #222; border-radius: 4px; overflow: hidden; }
-    .stat-fill { height: 100%; border-radius: 4px; }
+    .stat-fill  { height: 100%; border-radius: 4px; }
     #ford-weapon-side .stat-fill { background: linear-gradient(90deg,#c0392b,#ff6b6b); }
     #finn-weapon-side .stat-fill { background: linear-gradient(90deg,#1565c0,#64b5f6); }
     .stat-val { font-size: clamp(9px,2vw,11px); color: #ccc; font-weight: 900; width: 36px; text-align: right; flex-shrink: 0; }
-
-    /* Weapon buttons */
     .weapon-btn {
       width: 94%; display: flex; flex-direction: column; align-items: center;
       background: rgba(255,255,255,0.05); border: 3px solid rgba(255,255,255,0.1);
@@ -79,12 +68,31 @@
     .weapon-btn .w-icon { font-size: clamp(28px,7vw,46px); line-height: 1; }
     .weapon-btn .w-name { font-size: clamp(11px,2.8vw,16px); font-weight: 900; color: #fff; letter-spacing: 1px; }
     .weapon-btn .w-desc { font-size: clamp(9px,2vw,12px); color: #777; font-weight: 700; text-align: center; }
-    .weapon-btn.selected { border-color: currentColor; }
     #ford-weapon-side .weapon-btn.selected { background: rgba(255,107,107,0.18); border-color: #ff6b6b; box-shadow: 0 0 14px rgba(255,107,107,0.3); }
     #ford-weapon-side .weapon-btn.selected .w-name { color: #ff6b6b; }
     #finn-weapon-side .weapon-btn.selected { background: rgba(100,181,246,0.18); border-color: #64b5f6; box-shadow: 0 0 14px rgba(100,181,246,0.3); }
     #finn-weapon-side .weapon-btn.selected .w-name { color: #64b5f6; }
     .weapon-btn.locked { opacity: 0.35; pointer-events: none; }
+
+    /* ── COUNTDOWN ── */
+    #countdown-overlay {
+      position: fixed; inset: 0; z-index: 150; display: none;
+      align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.75); pointer-events: none;
+    }
+    #countdown-overlay.show { display: flex; }
+    #countdown-number {
+      font-size: clamp(110px,28vw,180px); font-weight: 900; color: #ffd700;
+      text-shadow: 0 0 60px #ffd700, 0 6px 0 #7a5800; line-height: 1;
+    }
+    #countdown-number.fight { color: #ff4444; text-shadow: 0 0 60px #ff4444, 0 6px 0 #7a0000; }
+    #countdown-number.pop { animation: count-pop 0.7s ease-out forwards; }
+    @keyframes count-pop {
+      0%   { transform: scale(2.2); opacity: 0; }
+      25%  { opacity: 1; }
+      75%  { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0.85); opacity: 0.8; }
+    }
 
     /* ── ARENA ── */
     #arena { flex: 1; display: flex; }
@@ -96,45 +104,42 @@
     #ford-zone { background: linear-gradient(170deg,#1a0505,#2d0a0a); border-right: 3px solid #333; }
     #finn-zone { background: linear-gradient(170deg,#050518,#0a0a2d); }
     .fighter-zone:active { filter: brightness(1.3); }
-    .fighter-name {
-      font-size: clamp(36px,8vw,64px); font-weight: 900;
-      letter-spacing: 3px; text-shadow: 0 0 24px currentColor;
-      margin-bottom: 8px; pointer-events: none;
-    }
+    .fighter-name { font-size: clamp(36px,8vw,64px); font-weight: 900; letter-spacing: 3px; text-shadow: 0 0 24px currentColor; margin-bottom: 8px; pointer-events: none; }
     #ford-zone .fighter-name { color: #ff6b6b; }
     #finn-zone .fighter-name { color: #64b5f6; }
-    .weapon-icon {
-      font-size: clamp(52px,12vw,84px); margin-bottom: 8px; pointer-events: none;
-      filter: drop-shadow(0 0 14px rgba(255,255,255,0.35));
-    }
-    .tap-hint {
-      font-size: clamp(11px,2.3vw,17px); font-weight: 900;
-      color: rgba(255,255,255,0.28); letter-spacing: 3px; pointer-events: none;
-    }
-    .poison-label {
-      font-size: clamp(13px,2.8vw,19px); font-weight: 900; color: #66bb6a;
-      letter-spacing: 2px; pointer-events: none; margin-top: 6px;
-      animation: poison-pulse 0.6s ease-in-out infinite alternate;
-    }
-    @keyframes poison-pulse { from { opacity: 1; } to { opacity: 0.35; } }
+    .weapon-icon { font-size: clamp(52px,12vw,84px); margin-bottom: 8px; pointer-events: none; filter: drop-shadow(0 0 14px rgba(255,255,255,0.35)); }
+    .tap-hint    { font-size: clamp(11px,2.3vw,17px); font-weight: 900; color: rgba(255,255,255,0.28); letter-spacing: 3px; pointer-events: none; }
+    .poison-label { font-size: clamp(13px,2.8vw,19px); font-weight: 900; color: #66bb6a; letter-spacing: 2px; pointer-events: none; margin-top: 6px; animation: poison-pulse 0.6s ease-in-out infinite alternate; }
+    @keyframes poison-pulse { from{opacity:1} to{opacity:0.35} }
 
-    /* Charge bar */
-    .charge-track {
-      position: absolute; bottom: 18px; left: 8%; right: 8%; height: 10px;
-      background: rgba(255,255,255,0.07); border-radius: 5px; overflow: hidden; pointer-events: none;
+    /* ── POWER SPOT ── */
+    .power-spot {
+      position: absolute; width: 62px; height: 62px; border-radius: 50%;
+      background: radial-gradient(circle, #fff8dc 0%, rgba(255,215,0,0.5) 50%, transparent 100%);
+      border: 3px solid #ffd700;
+      box-shadow: 0 0 18px #ffd700, 0 0 36px rgba(255,215,0,0.4);
+      cursor: pointer; z-index: 10;
+      animation: spot-pulse 0.45s ease-in-out infinite alternate;
     }
-    .charge-fill { height: 100%; width: 0%; border-radius: 5px; }
+    @keyframes spot-pulse {
+      from { transform: scale(1);    box-shadow: 0 0 18px #ffd700, 0 0 36px rgba(255,215,0,.4); }
+      to   { transform: scale(1.22); box-shadow: 0 0 30px #ffd700, 0 0 60px rgba(255,215,0,.7); }
+    }
+    .power-spot.spot-hit  { animation: spot-hit-anim  0.35s ease-out forwards; pointer-events: none; }
+    .power-spot.spot-miss { animation: spot-miss-anim 0.35s ease-out forwards; pointer-events: none; }
+    @keyframes spot-hit-anim  { 0%{opacity:1;transform:scale(1.2)} 100%{opacity:0;transform:scale(3)} }
+    @keyframes spot-miss-anim { 0%{opacity:1;transform:scale(1)}   100%{opacity:0;transform:scale(0.2)} }
+
+    /* ── CHARGE BAR ── */
+    .charge-track { position: absolute; bottom: 18px; left: 8%; right: 8%; height: 10px; background: rgba(255,255,255,0.07); border-radius: 5px; overflow: hidden; pointer-events: none; }
+    .charge-fill  { height: 100%; width: 0%; border-radius: 5px; }
     #ford-zone .charge-fill { background: linear-gradient(90deg,#ff6b6b,#ffd700); box-shadow: 0 0 8px #ffd700; }
     #finn-zone .charge-fill { background: linear-gradient(90deg,#64b5f6,#ffd700); box-shadow: 0 0 8px #ffd700; }
-    .charge-label {
-      position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
-      font-size: clamp(12px,2.8vw,17px); font-weight: 900; color: #ffd700;
-      letter-spacing: 2px; pointer-events: none; opacity: 0; text-shadow: 0 0 10px #ffd700;
-    }
+    .charge-label { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); font-size: clamp(12px,2.8vw,17px); font-weight: 900; color: #ffd700; letter-spacing: 2px; pointer-events: none; opacity: 0; text-shadow: 0 0 10px #ffd700; }
     .charge-label.show { opacity: 1; animation: clabel-pulse 0.3s ease infinite alternate; }
-    @keyframes clabel-pulse { from { transform: translateX(-50%) scale(1); } to { transform: translateX(-50%) scale(1.1); } }
+    @keyframes clabel-pulse { from{transform:translateX(-50%) scale(1)} to{transform:translateX(-50%) scale(1.1)} }
 
-    /* ── EFFECTS ── */
+    /* ── HIT EFFECTS ── */
     .hit-flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
     #ford-zone .hit-flash { background: radial-gradient(circle,rgba(255,100,100,.6),transparent 70%); }
     #finn-zone .hit-flash { background: radial-gradient(circle,rgba(100,181,246,.6),transparent 70%); }
@@ -142,61 +147,33 @@
     .hit-flash.flash-big { animation: flash-anim .38s ease-out forwards; }
     @keyframes flash-anim { 0%{opacity:1} 100%{opacity:0} }
 
-    .damage-pop {
-      position: absolute; font-weight: 900; text-shadow: 0 2px 8px #000;
-      pointer-events: none; top: 28%; animation: dmg-float .75s ease-out forwards;
-    }
-    .damage-pop.normal   { font-size: clamp(34px,8vw,52px); color: #fff; }
-    .damage-pop.special  { font-size: clamp(48px,11vw,72px); color: #ffd700; text-shadow: 0 0 20px #ffd700, 0 2px 8px #000; }
-    .damage-pop.poison   { font-size: clamp(26px,6vw,40px); color: #66bb6a; }
-    .damage-pop.crit     { font-size: clamp(54px,12vw,80px); color: #ff4444; text-shadow: 0 0 24px #ff0000, 0 2px 8px #000; }
-    @keyframes dmg-float {
-      0%   { opacity:1; transform:translateX(-50%) translateY(0) scale(1.5); }
-      100% { opacity:0; transform:translateX(-50%) translateY(-110px) scale(0.8); }
-    }
-    .crit-label {
-      position: absolute; font-size: clamp(20px,5vw,30px); font-weight: 900;
-      color: #ff4444; text-shadow: 0 0 16px #ff0000; letter-spacing: 2px;
-      pointer-events: none; top: 18%; left: 50%; transform: translateX(-50%);
-      animation: crit-pop .6s ease-out forwards;
-    }
-    @keyframes crit-pop {
-      0%   { opacity:1; transform:translateX(-50%) scale(1.6); }
-      60%  { opacity:1; transform:translateX(-50%) scale(1); }
-      100% { opacity:0; transform:translateX(-50%) scale(0.9); }
-    }
+    .damage-pop { position: absolute; font-weight: 900; text-shadow: 0 2px 8px #000; pointer-events: none; top: 28%; animation: dmg-float .75s ease-out forwards; }
+    .damage-pop.normal  { font-size: clamp(34px,8vw,52px); color: #fff; }
+    .damage-pop.special { font-size: clamp(48px,11vw,72px); color: #ffd700; text-shadow: 0 0 20px #ffd700, 0 2px 8px #000; }
+    .damage-pop.poison  { font-size: clamp(26px,6vw,40px); color: #66bb6a; }
+    .damage-pop.crit    { font-size: clamp(54px,12vw,80px); color: #ff4444; text-shadow: 0 0 24px #ff0000, 0 2px 8px #000; }
+    @keyframes dmg-float { 0%{opacity:1;transform:translateX(-50%) translateY(0) scale(1.5)} 100%{opacity:0;transform:translateX(-50%) translateY(-110px) scale(0.8)} }
 
-    @keyframes shake     { 0%,100%{transform:translate(0)} 20%{transform:translate(-7px,4px)} 40%{transform:translate(7px,-4px)} 60%{transform:translate(-5px,5px)} 80%{transform:translate(5px,-3px)} }
+    .crit-label { position: absolute; font-size: clamp(20px,5vw,30px); font-weight: 900; color: #ff4444; text-shadow: 0 0 16px #ff0000; letter-spacing: 2px; pointer-events: none; top: 18%; left: 50%; transform: translateX(-50%); animation: crit-pop .6s ease-out forwards; }
+    @keyframes crit-pop { 0%{opacity:1;transform:translateX(-50%) scale(1.6)} 60%{opacity:1;transform:translateX(-50%) scale(1)} 100%{opacity:0;transform:translateX(-50%) scale(0.9)} }
+
+    @keyframes shake     { 0%,100%{transform:translate(0)} 20%{transform:translate(-7px,4px)}  40%{transform:translate(7px,-4px)}  60%{transform:translate(-5px,5px)}  80%{transform:translate(5px,-3px)} }
     @keyframes shake-big { 0%,100%{transform:translate(0)} 15%{transform:translate(-14px,7px)} 30%{transform:translate(14px,-7px)} 45%{transform:translate(-10px,10px)} 60%{transform:translate(10px,-8px)} 75%{transform:translate(-7px,5px)} }
     .shake     { animation: shake     .22s ease-out; }
     .shake-big { animation: shake-big .4s  ease-out; }
 
     /* ── WIN SCREEN ── */
-    #win-screen {
-      position: fixed; inset: 0; display: none;
-      flex-direction: column; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.9); z-index: 100;
-    }
+    #win-screen { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.9); z-index: 100; }
     #win-screen.show { display: flex; }
-    #win-text {
-      font-size: clamp(42px,11vw,74px); font-weight: 900; color: #ffd700;
-      text-shadow: 0 0 40px #ffd700, 0 4px 0 #7a5800;
-      margin-bottom: 10px; text-align: center; padding: 0 20px;
-      animation: win-pulse .7s ease-in-out infinite alternate;
-    }
+    #win-text { font-size: clamp(42px,11vw,74px); font-weight: 900; color: #ffd700; text-shadow: 0 0 40px #ffd700, 0 4px 0 #7a5800; margin-bottom: 10px; text-align: center; padding: 0 20px; animation: win-pulse .7s ease-in-out infinite alternate; }
     @keyframes win-pulse { from{transform:scale(1)} to{transform:scale(1.06)} }
-    #win-sub { font-size: clamp(15px,4vw,25px); color: #fff; opacity:.8; margin-bottom: 20px; text-align: center; padding: 0 20px; }
+    #win-sub  { font-size: clamp(15px,4vw,25px); color: #fff; opacity:.8; margin-bottom: 20px; text-align: center; padding: 0 20px; }
     #win-pips { display: flex; gap: 10px; align-items: center; margin-bottom: 44px; }
-    .win-pip { width: 20px; height: 20px; border-radius: 50%; border: 3px solid #555; }
+    .win-pip  { width: 20px; height: 20px; border-radius: 50%; border: 3px solid #555; }
     .win-pip.ford-won { background: #ff6b6b; border-color: #ff6b6b; }
     .win-pip.finn-won { background: #64b5f6; border-color: #64b5f6; }
     .win-pip-divider  { width: 3px; height: 22px; background: #555; border-radius: 2px; }
-    #win-btn {
-      font-size: clamp(19px,5vw,28px); font-weight: 900; color: #000;
-      background: #ffd700; border: none; border-radius: 20px;
-      padding: 18px 48px; cursor: pointer; letter-spacing: 2px;
-      box-shadow: 0 7px 0 #9a7200; transition: transform .08s, box-shadow .08s;
-    }
+    #win-btn { font-size: clamp(19px,5vw,28px); font-weight: 900; color: #000; background: #ffd700; border: none; border-radius: 20px; padding: 18px 48px; cursor: pointer; letter-spacing: 2px; box-shadow: 0 7px 0 #9a7200; transition: transform .08s, box-shadow .08s; }
     #win-btn:active { transform: translateY(5px); box-shadow: 0 2px 0 #9a7200; }
   </style>
 </head>
@@ -241,40 +218,39 @@
     </div>
   </div>
 
+  <!-- Countdown overlay -->
+  <div id="countdown-overlay">
+    <div id="countdown-number">3</div>
+  </div>
+
   <!-- Weapon select -->
   <div id="weapon-screen" class="show">
     <div class="weapon-side" id="ford-weapon-side">
       <div class="picker-name">FORD</div>
-      <div class="picker-title" id="ford-picker-title">THE SCRAPPER</div>
+      <div class="picker-title">THE SCRAPPER</div>
       <div class="stat-block" id="ford-stats"></div>
       <button class="weapon-btn" id="ford-btn-sword" onclick="pickWeapon('ford','sword')">
-        <span class="w-icon">⚔️</span><span class="w-name">SWORD</span>
-        <span class="w-desc">5–9 dmg · steady crits</span>
+        <span class="w-icon">⚔️</span><span class="w-name">SWORD</span><span class="w-desc">5–9 dmg · steady crits</span>
       </button>
       <button class="weapon-btn" id="ford-btn-arrow" onclick="pickWeapon('ford','arrow')">
-        <span class="w-icon">🏹</span><span class="w-name">POISON ARROW</span>
-        <span class="w-desc">3–5 dmg · venom drains enemy</span>
+        <span class="w-icon">🏹</span><span class="w-name">POISON ARROW</span><span class="w-desc">3–5 dmg · venom drains enemy</span>
       </button>
       <button class="weapon-btn" id="ford-btn-axe" onclick="pickWeapon('ford','axe')">
-        <span class="w-icon">🪓</span><span class="w-name">AXE</span>
-        <span class="w-desc">4–13 dmg · brutal crits</span>
+        <span class="w-icon">🪓</span><span class="w-name">AXE</span><span class="w-desc">4–13 dmg · brutal crits</span>
       </button>
     </div>
     <div class="weapon-side" id="finn-weapon-side">
       <div class="picker-name">FINN</div>
-      <div class="picker-title" id="finn-picker-title">THE VETERAN</div>
+      <div class="picker-title">THE VETERAN</div>
       <div class="stat-block" id="finn-stats"></div>
       <button class="weapon-btn" id="finn-btn-sword" onclick="pickWeapon('finn','sword')">
-        <span class="w-icon">⚔️</span><span class="w-name">SWORD</span>
-        <span class="w-desc">5–9 dmg · steady crits</span>
+        <span class="w-icon">⚔️</span><span class="w-name">SWORD</span><span class="w-desc">5–9 dmg · steady crits</span>
       </button>
       <button class="weapon-btn" id="finn-btn-arrow" onclick="pickWeapon('finn','arrow')">
-        <span class="w-icon">🏹</span><span class="w-name">POISON ARROW</span>
-        <span class="w-desc">3–5 dmg · venom drains enemy</span>
+        <span class="w-icon">🏹</span><span class="w-name">POISON ARROW</span><span class="w-desc">3–5 dmg · venom drains enemy</span>
       </button>
       <button class="weapon-btn" id="finn-btn-axe" onclick="pickWeapon('finn','axe')">
-        <span class="w-icon">🪓</span><span class="w-name">AXE</span>
-        <span class="w-desc">4–13 dmg · brutal crits</span>
+        <span class="w-icon">🪓</span><span class="w-name">AXE</span><span class="w-desc">4–13 dmg · brutal crits</span>
       </button>
     </div>
   </div>
@@ -290,48 +266,18 @@
   <script>
     // ── Definitions ──
     const CHARACTERS = {
-      ford: {
-        title:       'THE SCRAPPER',
-        maxHp:       100,
-        critChance:  0.20,   // 20% base crit
-        critMult:    1.5,    // ×1.5 on crit
-        chargeMs:    1100,   // fast charge
-      },
-      finn: {
-        title:       'THE VETERAN',
-        maxHp:       100,
-        critChance:  0.10,   // 10% base crit
-        critMult:    2.2,    // ×2.2 on crit — rare but devastating
-        chargeMs:    1600,   // slower charge
-      },
+      ford: { title: 'THE SCRAPPER', maxHp: 100, critChance: 0.20, critMult: 1.5, chargeMs: 1100 },
+      finn: { title: 'THE VETERAN',  maxHp: 100, critChance: 0.10, critMult: 2.2, chargeMs: 1600 },
     };
-
-    // critBonus: added to character's critChance
-    // critMultBonus: added to character's critMult
     const WEAPONS = {
-      sword: {
-        icon: '⚔️', dmgMin: 5, dmgMax: 9,
-        specMin: 22, specMax: 30,
-        critBonus: 0.05, critMultBonus: 0,      // sword is accurate → +5% crit
-        poison: false,
-      },
-      arrow: {
-        icon: '🏹', dmgMin: 3, dmgMax: 5,
-        specMin: 5,  specMax: 8,
-        critBonus: -0.05, critMultBonus: 0,     // hard to crit with arrow
-        poison: true,
-        poisonTicks: 3, poisonDmg: 3,           // 9 total drip per normal hit
-        specPoisonTicks: 7, specPoisonDmg: 4,   // 28 total drip per special
-      },
-      axe: {
-        icon: '🪓', dmgMin: 4, dmgMax: 13,
-        specMin: 26, specMax: 42,
-        critBonus: -0.08, critMultBonus: 1.0,   // hard to land, but ×2.5/×3.2 when it does
-        poison: false,
-      },
+      sword: { icon:'⚔️', dmgMin:5,  dmgMax:9,  specMin:22, specMax:30, critBonus:0.05,  critMultBonus:0,   poison:false },
+      arrow: { icon:'🏹', dmgMin:3,  dmgMax:5,  specMin:5,  specMax:8,  critBonus:-0.05, critMultBonus:0,   poison:true,  poisonTicks:3, poisonDmg:3, specPoisonTicks:7, specPoisonDmg:4 },
+      axe:   { icon:'🪓', dmgMin:4,  dmgMax:13, specMin:26, specMax:42, critBonus:-0.08, critMultBonus:1.0, poison:false },
     };
-
-    const ROUNDS_TO_WIN = 3;
+    const ROUNDS_TO_WIN  = 3;
+    const SPOT_MIN_MS    = 4500;   // min delay between spots
+    const SPOT_MAX_MS    = 9000;   // max delay between spots
+    const SPOT_LIFE_MS   = 2400;   // how long the spot stays visible
 
     // ── Audio ──
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -339,95 +285,89 @@
     function playHit(big, crit) {
       const osc = audioCtx.createOscillator(), gain = audioCtx.createGain(), dist = audioCtx.createWaveShaper();
       const curve = new Float32Array(256);
-      for (let i = 0; i < 256; i++) {
-        const x = (i * 2) / 256 - 1;
-        curve[i] = (Math.PI + 200) * x / (Math.PI + 200 * Math.abs(x));
-      }
+      for (let i = 0; i < 256; i++) { const x=(i*2)/256-1; curve[i]=(Math.PI+200)*x/(Math.PI+200*Math.abs(x)); }
       dist.curve = curve;
       osc.connect(dist); dist.connect(gain); gain.connect(audioCtx.destination);
       osc.type = crit ? 'square' : 'sawtooth';
-      const base = crit ? 260 : (big ? 100 : 160);
-      const dur  = crit ? 0.5  : (big ? 0.45 : 0.28);
-      osc.frequency.setValueAtTime(base + Math.random() * 80, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(crit ? 130 : 40, audioCtx.currentTime + dur);
-      gain.gain.setValueAtTime(crit ? 0.7 : (big ? 0.8 : 0.55), audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-      osc.start(); osc.stop(audioCtx.currentTime + dur);
+      const base = crit ? 260 : big ? 100 : 160;
+      const dur  = crit ? 0.5  : big ? 0.45 : 0.28;
+      osc.frequency.setValueAtTime(base + Math.random()*80, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(crit?130:40, audioCtx.currentTime+dur);
+      gain.gain.setValueAtTime(crit?0.7:big?0.8:0.55, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+dur);
+      osc.start(); osc.stop(audioCtx.currentTime+dur);
     }
-
     function playPoison() {
-      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(220, audioCtx.currentTime);
-      osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.3);
-      gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-      osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+      const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination); o.type='sine';
+      o.frequency.setValueAtTime(220,audioCtx.currentTime);
+      o.frequency.linearRampToValueAtTime(110,audioCtx.currentTime+0.3);
+      g.gain.setValueAtTime(0.12,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.3);
+      o.start(); o.stop(audioCtx.currentTime+0.3);
     }
-
+    function playSpotAppear() {
+      [880,1108,1318].forEach((f,i)=>{
+        const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        const t=audioCtx.currentTime+i*0.07;
+        o.type='sine'; o.frequency.setValueAtTime(f,t);
+        g.gain.setValueAtTime(0.12,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.22);
+        o.start(t); o.stop(t+0.22);
+      });
+    }
+    function playSpotHit() {
+      [1047,1319,1568,2093].forEach((f,i)=>{
+        const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        const t=audioCtx.currentTime+i*0.06;
+        o.type='sine'; o.frequency.setValueAtTime(f,t);
+        g.gain.setValueAtTime(0.18,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
+        o.start(t); o.stop(t+0.28);
+      });
+    }
+    function playCountBeep(isFight) {
+      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination); o.type='square';
+      o.frequency.setValueAtTime(isFight?880:440, audioCtx.currentTime);
+      g.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+(isFight?0.5:0.15));
+      o.start(); o.stop(audioCtx.currentTime+(isFight?0.5:0.15));
+    }
     function playRoundWin() {
-      [392,523,659].forEach((f,i) => {
-        const o=audioCtx.createOscillator(), g=audioCtx.createGain();
-        o.connect(g); g.connect(audioCtx.destination);
-        const t=audioCtx.currentTime+i*0.14;
-        o.type='square'; o.frequency.setValueAtTime(f,t);
-        g.gain.setValueAtTime(0.25,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
-        o.start(t); o.stop(t+0.4);
-      });
+      [392,523,659].forEach((f,i)=>{ const o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); const t=audioCtx.currentTime+i*0.14; o.type='square'; o.frequency.setValueAtTime(f,t); g.gain.setValueAtTime(0.25,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.4); o.start(t); o.stop(t+0.4); });
     }
-
     function playMatchWin() {
-      [523,659,784,784,1047].forEach((f,i) => {
-        const o=audioCtx.createOscillator(), g=audioCtx.createGain();
-        o.connect(g); g.connect(audioCtx.destination);
-        const t=audioCtx.currentTime+i*0.13;
-        o.type='square'; o.frequency.setValueAtTime(f,t);
-        g.gain.setValueAtTime(0.3,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.5);
-        o.start(t); o.stop(t+0.5);
-      });
+      [523,659,784,784,1047].forEach((f,i)=>{ const o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); const t=audioCtx.currentTime+i*0.13; o.type='square'; o.frequency.setValueAtTime(f,t); g.gain.setValueAtTime(0.3,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.5); o.start(t); o.stop(t+0.5); });
     }
 
     // ── State ──
-    let hp       = { ford: 100, finn: 100 };
-    let wins     = { ford: 0,   finn: 0   };
+    let hp       = { ford:100, finn:100 };
+    let wins     = { ford:0,   finn:0   };
     let round    = 1;
     let gameOver = false;
-    let weapon   = { ford: null, finn: null };
-    let poisonInterval = { ford: null, finn: null };
-    let chargeStart    = { ford: null, finn: null };
-    let chargeTimer    = { ford: null, finn: null };
-    let chargeFrame    = { ford: null, finn: null };
-    let chargeFired    = { ford: false, finn: false };
+    let weapon   = { ford:null, finn:null };
+    let poisonInterval = { ford:null, finn:null };
+    let chargeStart    = { ford:null, finn:null };
+    let chargeTimer    = { ford:null, finn:null };
+    let chargeFrame    = { ford:null, finn:null };
+    let chargeFired    = { ford:false, finn:false };
+    let spotTimeout    = { ford:null, finn:null };
+    let activeSpot     = { ford:null, finn:null };
 
     const $ = id => document.getElementById(id);
     const fordZone = $('ford-zone'), finnZone = $('finn-zone'), arena = $('arena');
 
-    // ── Stat bars on weapon screen ──
+    // ── Stat bars ──
     function renderStats() {
       ['ford','finn'].forEach(who => {
-        const ch  = CHARACTERS[who];
-        const pct = v => Math.round(v * 100);
-        // normalise for bar width: critChance 0–35%, critMult 1–3.5, chargeMs 800–2000
-        const critPct  = Math.round((ch.critChance / 0.35) * 100);
-        const multPct  = Math.round(((ch.critMult - 1) / 2.5) * 100);
-        const spedPct  = Math.round(((2000 - ch.chargeMs) / 1200) * 100);
+        const ch = CHARACTERS[who];
+        const critPct = Math.round((ch.critChance/0.35)*100);
+        const multPct = Math.round(((ch.critMult-1)/2.5)*100);
+        const spedPct = Math.round(((2000-ch.chargeMs)/1200)*100);
         $(`${who}-stats`).innerHTML = `
-          <div class="stat-row">
-            <div class="stat-label">⚡ CRIT%</div>
-            <div class="stat-track"><div class="stat-fill" style="width:${critPct}%"></div></div>
-            <div class="stat-val">${pct(ch.critChance)}%</div>
-          </div>
-          <div class="stat-row">
-            <div class="stat-label">💥 POWER</div>
-            <div class="stat-track"><div class="stat-fill" style="width:${multPct}%"></div></div>
-            <div class="stat-val">×${ch.critMult.toFixed(1)}</div>
-          </div>
-          <div class="stat-row">
-            <div class="stat-label">🔋 CHARGE</div>
-            <div class="stat-track"><div class="stat-fill" style="width:${spedPct}%"></div></div>
-            <div class="stat-val">${ch.chargeMs < 1300 ? 'FAST' : ch.chargeMs < 1500 ? 'MED' : 'SLOW'}</div>
-          </div>`;
+          <div class="stat-row"><div class="stat-label">⚡ CRIT%</div><div class="stat-track"><div class="stat-fill" style="width:${critPct}%"></div></div><div class="stat-val">${Math.round(ch.critChance*100)}%</div></div>
+          <div class="stat-row"><div class="stat-label">💥 POWER</div><div class="stat-track"><div class="stat-fill" style="width:${multPct}%"></div></div><div class="stat-val">×${ch.critMult.toFixed(1)}</div></div>
+          <div class="stat-row"><div class="stat-label">🔋 CHARGE</div><div class="stat-track"><div class="stat-fill" style="width:${spedPct}%"></div></div><div class="stat-val">${ch.chargeMs<1300?'FAST':ch.chargeMs<1500?'MED':'SLOW'}</div></div>`;
       });
     }
 
@@ -436,26 +376,121 @@
       if (audioCtx.state === 'suspended') audioCtx.resume();
       weapon[who] = w;
       ['sword','arrow','axe'].forEach(k => {
-        $(`${who}-btn-${k}`).classList.toggle('selected', k === w);
-        $(`${who}-btn-${k}`).classList.toggle('locked',   k !== w);
+        $(`${who}-btn-${k}`).classList.toggle('selected', k===w);
+        $(`${who}-btn-${k}`).classList.toggle('locked',   k!==w);
       });
-      if (weapon.ford && weapon.finn) setTimeout(startRound, 350);
+      if (weapon.ford && weapon.finn) setTimeout(beginCountdown, 300);
     }
-
     function showWeaponScreen() {
-      weapon = { ford: null, finn: null };
-      ['ford','finn'].forEach(who =>
-        ['sword','arrow','axe'].forEach(k =>
-          $(`${who}-btn-${k}`).classList.remove('selected','locked')));
+      weapon = { ford:null, finn:null };
+      ['ford','finn'].forEach(who => ['sword','arrow','axe'].forEach(k => $(`${who}-btn-${k}`).classList.remove('selected','locked')));
       $('weapon-screen').classList.add('show');
     }
 
-    function startRound() {
+    // ── Countdown ──
+    function beginCountdown() {
       $('weapon-screen').classList.remove('show');
       $('ford-weapon-icon').textContent = WEAPONS[weapon.ford].icon;
       $('finn-weapon-icon').textContent = WEAPONS[weapon.finn].icon;
       $('ford-tap-hint').textContent = 'TAP  ·  HOLD FOR ⚡';
       $('finn-tap-hint').textContent = 'TAP  ·  HOLD FOR ⚡';
+
+      const overlay = $('countdown-overlay');
+      const numEl   = $('countdown-number');
+      overlay.classList.add('show');
+
+      let count = 3;
+      function showCount(n) {
+        numEl.classList.toggle('fight', n === 0);
+        numEl.textContent = n === 0 ? 'FIGHT!' : String(n);
+        numEl.classList.remove('pop');
+        void numEl.offsetWidth;
+        numEl.classList.add('pop');
+        playCountBeep(n === 0);
+      }
+      showCount(3);
+      const iv = setInterval(() => {
+        count--;
+        if (count >= 0) {
+          showCount(count);
+          if (count === 0) {
+            setTimeout(() => {
+              clearInterval(iv);
+              overlay.classList.remove('show');
+              startFight();
+            }, 650);
+          }
+        }
+      }, 900);
+    }
+
+    function startFight() {
+      gameOver = false;
+      scheduleSpot('ford');
+      scheduleSpot('finn');
+    }
+
+    // ── Power spots ──
+    function scheduleSpot(who) {
+      clearTimeout(spotTimeout[who]);
+      const delay = SPOT_MIN_MS + Math.random() * (SPOT_MAX_MS - SPOT_MIN_MS);
+      spotTimeout[who] = setTimeout(() => spawnSpot(who), delay);
+    }
+
+    function spawnSpot(who) {
+      if (gameOver) return;
+      const zone    = who === 'ford' ? fordZone : finnZone;
+      const spotEl  = document.createElement('div');
+      spotEl.className = 'power-spot';
+
+      // Position: keep a margin from the center divider and outer edges
+      const zW = zone.offsetWidth, zH = zone.offsetHeight;
+      const sz = 62; // spot diameter
+      // ford-zone: divider is on the RIGHT → keep away from right edge
+      // finn-zone: divider is on the LEFT  → keep away from left edge
+      const xMin = who === 'ford' ? zW * 0.10 : zW * 0.30;
+      const xMax = who === 'ford' ? zW * 0.68 : zW * 0.88;
+      const yMin = zH * 0.12;
+      const yMax = zH * 0.78;
+
+      spotEl.style.left = (xMin + Math.random() * (xMax - xMin) - sz/2) + 'px';
+      spotEl.style.top  = (yMin + Math.random() * (yMax - yMin) - sz/2) + 'px';
+
+      zone.appendChild(spotEl);
+      activeSpot[who] = spotEl;
+      playSpotAppear();
+
+      function onSpotTap(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (gameOver) return;
+        clearTimeout(spotTimeout[who]);
+        removeSpot(who, true);
+        playSpotHit();
+        doHit(who, true);          // fires a special attack
+        scheduleSpot(who);
+      }
+      spotEl.addEventListener('touchstart', onSpotTap, { passive: false });
+      spotEl.addEventListener('mousedown',  onSpotTap);
+
+      // Auto-disappear
+      spotTimeout[who] = setTimeout(() => {
+        removeSpot(who, false);
+        scheduleSpot(who);
+      }, SPOT_LIFE_MS);
+    }
+
+    function removeSpot(who, tapped) {
+      const el = activeSpot[who];
+      if (!el) return;
+      activeSpot[who] = null;
+      el.classList.add(tapped ? 'spot-hit' : 'spot-miss');
+      el.addEventListener('animationend', () => el.remove(), { once: true });
+    }
+
+    function stopSpots() {
+      clearTimeout(spotTimeout.ford); clearTimeout(spotTimeout.finn);
+      removeSpot('ford', false); removeSpot('finn', false);
     }
 
     // ── HUD ──
@@ -463,24 +498,15 @@
       const maxHp = CHARACTERS[who].maxHp;
       const pct   = Math.max(0, hp[who]) / maxHp * 100;
       $(`${who}-hp-fill`).style.width = pct + '%';
-      $(`${who}-hp-label`).textContent = (who === 'ford' ? 'FORD  ❤️  ' : 'FINN  ❤️  ') + Math.max(0, hp[who]);
+      $(`${who}-hp-label`).textContent = (who==='ford'?'FORD  ❤️  ':'FINN  ❤️  ') + Math.max(0, hp[who]);
     }
-
     function buildPips(container, large) {
       container.innerHTML = '';
-      const cls = large ? 'win-pip' : 'pip';
-      const div = large ? 'win-pip-divider' : 'pip-divider';
-      for (let i = 0; i < ROUNDS_TO_WIN; i++) {
-        const p = document.createElement('div');
-        p.className = cls + (i < wins.ford ? ' ford-won' : ''); container.appendChild(p);
-      }
-      const d = document.createElement('div'); d.className = div; container.appendChild(d);
-      for (let i = 0; i < ROUNDS_TO_WIN; i++) {
-        const p = document.createElement('div');
-        p.className = cls + (i < wins.finn ? ' finn-won' : ''); container.appendChild(p);
-      }
+      const cls=large?'win-pip':'pip', div=large?'win-pip-divider':'pip-divider';
+      for(let i=0;i<ROUNDS_TO_WIN;i++){const p=document.createElement('div');p.className=cls+(i<wins.ford?' ford-won':'');container.appendChild(p);}
+      const d=document.createElement('div');d.className=div;container.appendChild(d);
+      for(let i=0;i<ROUNDS_TO_WIN;i++){const p=document.createElement('div');p.className=cls+(i<wins.finn?' finn-won':'');container.appendChild(p);}
     }
-
     function updateRoundHUD() {
       $('round-label').textContent = 'ROUND ' + round;
       $('round-score').textContent = wins.ford + ' – ' + wins.finn;
@@ -489,215 +515,160 @@
 
     // ── Hit effects ──
     function spawnDmg(zone, dmg, type) {
-      const el = document.createElement('div');
-      el.className = 'damage-pop ' + type;
-      el.textContent = '-' + dmg;
-      el.style.left = (22 + Math.random() * 56) + '%';
-      zone.appendChild(el);
-      el.addEventListener('animationend', () => el.remove());
+      const el=document.createElement('div'); el.className='damage-pop '+type; el.textContent='-'+dmg;
+      el.style.left=(22+Math.random()*56)+'%'; zone.appendChild(el);
+      el.addEventListener('animationend',()=>el.remove());
     }
-
     function spawnCritLabel(zone) {
-      const el = document.createElement('div');
-      el.className = 'crit-label';
-      el.textContent = '💥 CRITICAL!';
-      zone.appendChild(el);
-      el.addEventListener('animationend', () => el.remove());
+      const el=document.createElement('div'); el.className='crit-label'; el.textContent='💥 CRITICAL!';
+      zone.appendChild(el); el.addEventListener('animationend',()=>el.remove());
+    }
+    function flashZone(flashEl, big) {
+      flashEl.classList.remove('flash','flash-big'); void flashEl.offsetWidth;
+      flashEl.classList.add(big?'flash-big':'flash');
+    }
+    function shakeScreen(big) {
+      arena.classList.remove('shake','shake-big'); void arena.offsetWidth;
+      arena.classList.add(big?'shake-big':'shake');
+      arena.addEventListener('animationend',()=>arena.classList.remove('shake','shake-big'),{once:true});
     }
 
-    function flash(flashEl, big) {
-      flashEl.classList.remove('flash','flash-big');
-      void flashEl.offsetWidth;
-      flashEl.classList.add(big ? 'flash-big' : 'flash');
-    }
-
-    function shake(big) {
-      arena.classList.remove('shake','shake-big');
-      void arena.offsetWidth;
-      arena.classList.add(big ? 'shake-big' : 'shake');
-      arena.addEventListener('animationend', () => arena.classList.remove('shake','shake-big'), { once: true });
-    }
-
-    // ── Crit calculation ──
+    // ── Crit ──
     function rollCrit(attacker, weaponKey) {
-      const ch      = CHARACTERS[attacker];
-      const w       = WEAPONS[weaponKey];
-      const chance  = Math.min(0.60, Math.max(0.02, ch.critChance + w.critBonus));
-      const isCrit  = Math.random() < chance;
-      const mult    = isCrit ? (ch.critMult + w.critMultBonus) : 1;
-      return { isCrit, mult };
+      const ch=CHARACTERS[attacker], w=WEAPONS[weaponKey];
+      const chance=Math.min(0.60,Math.max(0.02,ch.critChance+w.critBonus));
+      const isCrit=Math.random()<chance;
+      return { isCrit, mult: isCrit ? ch.critMult+w.critMultBonus : 1 };
     }
 
     // ── Poison ──
     function applyPoison(victim, ticks, dmgPerTick) {
       clearInterval(poisonInterval[victim]);
-      const zone  = victim === 'ford' ? fordZone : finnZone;
-      const lbl   = $(`${victim}-poison-label`);
-      lbl.style.display = '';
-      let left = ticks;
-      poisonInterval[victim] = setInterval(() => {
-        if (gameOver) { clearInterval(poisonInterval[victim]); lbl.style.display = 'none'; return; }
-        hp[victim] -= dmgPerTick;
-        spawnDmg(zone, dmgPerTick, 'poison');
-        playPoison();
-        updateHp(victim);
-        left--;
-        if (left <= 0 || hp[victim] <= 0) {
-          clearInterval(poisonInterval[victim]);
-          lbl.style.display = 'none';
-          if (hp[victim] <= 0) endRound(victim === 'ford' ? 'finn' : 'ford');
+      const zone=$(`${victim==='ford'?'ford':'finn'}-zone`==='ford-zone'?fordZone:finnZone);
+      const lbl=$(`${victim}-poison-label`);
+      // get the zone element properly
+      const vZone = victim==='ford' ? fordZone : finnZone;
+      lbl.style.display='';
+      let left=ticks;
+      poisonInterval[victim]=setInterval(()=>{
+        if(gameOver){clearInterval(poisonInterval[victim]);lbl.style.display='none';return;}
+        hp[victim]-=dmgPerTick;
+        spawnDmg(vZone,dmgPerTick,'poison');
+        playPoison(); updateHp(victim); left--;
+        if(left<=0||hp[victim]<=0){
+          clearInterval(poisonInterval[victim]); lbl.style.display='none';
+          if(hp[victim]<=0)endRound(victim==='ford'?'finn':'ford');
         }
-      }, 800);
+      },800);
     }
 
     // ── Charge bar ──
     function animateCharge(who) {
-      const fill  = $(`${who}-charge-fill`);
-      const label = $(`${who}-charge-label`);
-      const dur   = CHARACTERS[who].chargeMs;
-      function frame() {
-        if (!chargeStart[who]) return;
-        const pct = Math.min(100, ((Date.now() - chargeStart[who]) / dur) * 100);
-        fill.style.width = pct + '%';
-        if (pct >= 15) label.classList.add('show');
-        if (pct < 100) chargeFrame[who] = requestAnimationFrame(frame);
+      const fill=$(`${who}-charge-fill`), label=$(`${who}-charge-label`), dur=CHARACTERS[who].chargeMs;
+      function frame(){
+        if(!chargeStart[who])return;
+        const pct=Math.min(100,((Date.now()-chargeStart[who])/dur)*100);
+        fill.style.width=pct+'%';
+        if(pct>=15)label.classList.add('show');
+        if(pct<100)chargeFrame[who]=requestAnimationFrame(frame);
       }
-      chargeFrame[who] = requestAnimationFrame(frame);
+      chargeFrame[who]=requestAnimationFrame(frame);
     }
-
     function resetCharge(who) {
-      chargeStart[who] = null;
-      cancelAnimationFrame(chargeFrame[who]);
-      $(`${who}-charge-fill`).style.width = '0%';
-      $(`${who}-charge-label`).classList.remove('show');
+      chargeStart[who]=null; cancelAnimationFrame(chargeFrame[who]);
+      $(`${who}-charge-fill`).style.width='0%'; $(`${who}-charge-label`).classList.remove('show');
     }
 
     // ── Core hit ──
     function doHit(attacker, isSpecial) {
-      if (gameOver) return;
-      const defender  = attacker === 'ford' ? 'finn' : 'ford';
-      const w         = WEAPONS[weapon[attacker]];
-      const defZone   = defender === 'ford' ? fordZone : finnZone;
-      const defFlash  = $(`${defender}-flash`);
-      const { isCrit, mult } = rollCrit(attacker, weapon[attacker]);
-
-      let raw, type;
-      if (isSpecial) {
-        raw  = Math.floor(Math.random() * (w.specMax - w.specMin + 1)) + w.specMin;
-        type = isCrit ? 'crit' : 'special';
-      } else {
-        raw  = Math.floor(Math.random() * (w.dmgMax - w.dmgMin + 1)) + w.dmgMin;
-        type = isCrit ? 'crit' : 'normal';
-      }
-
-      const dmg = Math.round(raw * mult);
-      hp[defender] -= dmg;
-
-      playHit(isSpecial, isCrit);
-      shake(isSpecial || isCrit);
-      flash(defFlash, isSpecial || isCrit);
-      spawnDmg(defZone, dmg, type);
-      if (isCrit) spawnCritLabel(defZone);
+      if(gameOver)return;
+      const defender=attacker==='ford'?'finn':'ford';
+      const w=WEAPONS[weapon[attacker]];
+      const defZone=defender==='ford'?fordZone:finnZone;
+      const {isCrit,mult}=rollCrit(attacker,weapon[attacker]);
+      const base=isSpecial
+        ? Math.floor(Math.random()*(w.specMax-w.specMin+1))+w.specMin
+        : Math.floor(Math.random()*(w.dmgMax-w.dmgMin+1))+w.dmgMin;
+      const dmg=Math.round(base*mult);
+      const type=isCrit?'crit':isSpecial?'special':'normal';
+      hp[defender]-=dmg;
+      playHit(isSpecial,isCrit); shakeScreen(isSpecial||isCrit);
+      flashZone($(`${defender}-flash`),isSpecial||isCrit);
+      spawnDmg(defZone,dmg,type);
+      if(isCrit)spawnCritLabel(defZone);
       updateHp(defender);
-
-      if (w.poison) {
-        const ticks = isSpecial ? w.specPoisonTicks : w.poisonTicks;
-        const pdmg  = isSpecial ? w.specPoisonDmg  : w.poisonDmg;
-        applyPoison(defender, ticks, pdmg);
+      if(w.poison){
+        const ticks=isSpecial?w.specPoisonTicks:w.poisonTicks;
+        const pdmg =isSpecial?w.specPoisonDmg:w.poisonDmg;
+        applyPoison(defender,ticks,pdmg);
       }
-
-      if (hp[defender] <= 0) endRound(attacker);
+      if(hp[defender]<=0)endRound(attacker);
     }
 
     // ── Touch ──
     function onTouchStart(who) {
       return e => {
         e.preventDefault();
-        if (gameOver || !weapon[who]) return;
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        chargeStart[who] = Date.now();
-        chargeFired[who] = false;
-        clearTimeout(chargeTimer[who]);
-        animateCharge(who);
-        chargeTimer[who] = setTimeout(() => {
-          chargeFired[who] = true;
-          resetCharge(who);
-          doHit(who, true);
-        }, CHARACTERS[who].chargeMs);
+        if(gameOver||!weapon[who])return;
+        if(audioCtx.state==='suspended')audioCtx.resume();
+        chargeStart[who]=Date.now(); chargeFired[who]=false;
+        clearTimeout(chargeTimer[who]); animateCharge(who);
+        chargeTimer[who]=setTimeout(()=>{ chargeFired[who]=true; resetCharge(who); doHit(who,true); },CHARACTERS[who].chargeMs);
       };
     }
-
     function onTouchEnd(who) {
       return e => {
         e.preventDefault();
-        if (!chargeStart[who]) return;
-        if (chargeFired[who]) { resetCharge(who); return; }
-        clearTimeout(chargeTimer[who]);
-        resetCharge(who);
-        chargeFired[who] = true;
-        doHit(who, false);
+        if(!chargeStart[who])return;
+        if(chargeFired[who]){resetCharge(who);return;}
+        clearTimeout(chargeTimer[who]); resetCharge(who); chargeFired[who]=true; doHit(who,false);
       };
     }
 
     // ── Round / match ──
     function endRound(winner) {
-      gameOver = true;
+      gameOver=true; stopSpots();
       clearInterval(poisonInterval.ford); clearInterval(poisonInterval.finn);
-      $('ford-poison-label').style.display = 'none';
-      $('finn-poison-label').style.display = 'none';
-      wins[winner]++;
-      updateRoundHUD();
-      buildPips($('win-pips'), true);
-      const loser = winner === 'ford' ? 'Finn' : 'Ford';
-      if (wins[winner] >= ROUNDS_TO_WIN) {
+      $('ford-poison-label').style.display='none'; $('finn-poison-label').style.display='none';
+      wins[winner]++; updateRoundHUD(); buildPips($('win-pips'),true);
+      const loser=winner==='ford'?'Finn':'Ford';
+      if(wins[winner]>=ROUNDS_TO_WIN){
         playMatchWin();
-        $('win-text').textContent = winner.toUpperCase() + ' WINS THE MATCH! 🏆';
-        $('win-sub').textContent  = '💀 ' + loser + ' is defeated ' + wins[winner] + ' – ' + wins[loser.toLowerCase()] + '!';
-        $('win-btn').textContent  = '⚔️  PLAY AGAIN  ⚔️';
-        $('win-btn').onclick      = resetMatch;
+        $('win-text').textContent=winner.toUpperCase()+' WINS THE MATCH! 🏆';
+        $('win-sub').textContent='💀 '+loser+' is defeated '+wins[winner]+' – '+wins[loser.toLowerCase()]+'!';
+        $('win-btn').textContent='⚔️  PLAY AGAIN  ⚔️'; $('win-btn').onclick=resetMatch;
       } else {
         playRoundWin();
-        $('win-text').textContent = winner.toUpperCase() + ' WINS ROUND ' + round + '!';
-        $('win-sub').textContent  = '💀 ' + loser + ' is down! Round ' + (wins.ford + wins.finn + 1) + ' up next…';
-        $('win-btn').textContent  = '▶  NEXT ROUND  ▶';
-        $('win-btn').onclick      = nextRound;
+        $('win-text').textContent=winner.toUpperCase()+' WINS ROUND '+round+'!';
+        $('win-sub').textContent='💀 '+loser+' is down! Round '+(wins.ford+wins.finn+1)+' up next…';
+        $('win-btn').textContent='▶  NEXT ROUND  ▶'; $('win-btn').onclick=nextRound;
       }
       $('win-screen').classList.add('show');
     }
-
     function nextRound() {
-      round++;
-      hp = { ford: CHARACTERS.ford.maxHp, finn: CHARACTERS.finn.maxHp };
-      gameOver = false;
+      round++; hp={ford:CHARACTERS.ford.maxHp,finn:CHARACTERS.finn.maxHp}; gameOver=false;
       updateHp('ford'); updateHp('finn'); updateRoundHUD();
-      $('win-screen').classList.remove('show');
-      showWeaponScreen();
+      $('win-screen').classList.remove('show'); showWeaponScreen();
     }
-
     function resetMatch() {
-      wins  = { ford: 0, finn: 0 };
-      round = 1;
-      hp    = { ford: CHARACTERS.ford.maxHp, finn: CHARACTERS.finn.maxHp };
-      gameOver = false;
+      wins={ford:0,finn:0}; round=1; hp={ford:CHARACTERS.ford.maxHp,finn:CHARACTERS.finn.maxHp}; gameOver=false;
       updateHp('ford'); updateHp('finn'); updateRoundHUD();
-      $('win-screen').classList.remove('show');
-      showWeaponScreen();
+      $('win-screen').classList.remove('show'); showWeaponScreen();
     }
 
     // ── Input ──
-    fordZone.addEventListener('touchstart', onTouchStart('ford'), { passive: false });
-    fordZone.addEventListener('touchend',   onTouchEnd('ford'),   { passive: false });
-    finnZone.addEventListener('touchstart', onTouchStart('finn'), { passive: false });
-    finnZone.addEventListener('touchend',   onTouchEnd('finn'),   { passive: false });
-    fordZone.addEventListener('mousedown',  onTouchStart('ford'));
-    fordZone.addEventListener('mouseup',    onTouchEnd('ford'));
-    finnZone.addEventListener('mousedown',  onTouchStart('finn'));
-    finnZone.addEventListener('mouseup',    onTouchEnd('finn'));
-    $('win-btn').addEventListener('touchstart', e => { e.preventDefault(); $('win-btn').onclick?.(); });
+    fordZone.addEventListener('touchstart',onTouchStart('ford'),{passive:false});
+    fordZone.addEventListener('touchend',  onTouchEnd('ford'),  {passive:false});
+    finnZone.addEventListener('touchstart',onTouchStart('finn'),{passive:false});
+    finnZone.addEventListener('touchend',  onTouchEnd('finn'),  {passive:false});
+    fordZone.addEventListener('mousedown', onTouchStart('ford'));
+    fordZone.addEventListener('mouseup',   onTouchEnd('ford'));
+    finnZone.addEventListener('mousedown', onTouchStart('finn'));
+    finnZone.addEventListener('mouseup',   onTouchEnd('finn'));
+    $('win-btn').addEventListener('touchstart',e=>{e.preventDefault();$('win-btn').onclick?.();});
 
     // ── Init ──
-    renderStats();
-    updateRoundHUD();
+    renderStats(); updateRoundHUD();
   </script>
 </body>
 </html>
