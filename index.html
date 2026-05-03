@@ -17,19 +17,19 @@
     #hud { display: flex; align-items: center; height: 72px; background: #000; padding: 10px 12px; gap: 10px; flex-shrink: 0; }
     .hp-bar-wrapper { flex: 1; }
     .hp-label { font-size: 12px; font-weight: 900; margin-bottom: 4px; text-align: center; letter-spacing: 1px; }
-    #ford-hp-label { color: #ff6b6b; }
-    #finn-hp-label { color: #64b5f6; }
+    #ford-hp-label { color: #64b5f6; }
+    #finn-hp-label { color: #ff6b6b; }
     .hp-track { width: 100%; height: 24px; background: #333; border-radius: 12px; overflow: hidden; }
     .hp-fill  { height: 100%; border-radius: 12px; transition: width 0.1s ease; }
-    #ford-hp-fill { background: linear-gradient(90deg,#c0392b,#ff6b6b); width: 100%; }
-    #finn-hp-fill { background: linear-gradient(90deg,#1565c0,#64b5f6); width: 100%; }
+    #ford-hp-fill { background: linear-gradient(90deg,#1565c0,#64b5f6); width: 100%; }
+    #finn-hp-fill { background: linear-gradient(90deg,#c0392b,#ff6b6b); width: 100%; }
     #round-panel { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 90px; }
     #round-label { font-size: 10px; font-weight: 900; color: #888; letter-spacing: 2px; }
     #round-score { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: 4px; line-height: 1; }
     #round-pips  { display: flex; gap: 4px; align-items: center; }
     .pip { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #555; }
-    .pip.ford-won { background: #ff6b6b; border-color: #ff6b6b; }
-    .pip.finn-won { background: #64b5f6; border-color: #64b5f6; }
+    .pip.ford-won { background: #64b5f6; border-color: #64b5f6; }
+    .pip.finn-won { background: #ff6b6b; border-color: #ff6b6b; }
     .pip-divider  { width: 2px; height: 12px; background: #444; border-radius: 1px; }
 
     /* ── WEAPON / STAT SELECT SCREEN ── */
@@ -39,12 +39,12 @@
       flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
       padding: 12px 8px; gap: 8px; overflow: hidden;
     }
-    #ford-weapon-side { background: linear-gradient(170deg,#1a0505,#2d0a0a); border-right: 3px solid #333; }
-    #finn-weapon-side { background: linear-gradient(170deg,#050518,#0a0a2d); }
+    #ford-weapon-side { background: linear-gradient(170deg,#050518,#0a0a2d); border-right: 3px solid #333; }
+    #finn-weapon-side { background: linear-gradient(170deg,#1a0505,#2d0a0a); }
     .picker-name  { font-size: clamp(22px,5.5vw,40px); font-weight: 900; letter-spacing: 3px; text-shadow: 0 0 20px currentColor; line-height: 1; }
     .picker-title { font-size: clamp(9px,2vw,13px); color: #888; font-weight: 700; letter-spacing: 2px; min-height: 16px; }
-    #ford-weapon-side .picker-name { color: #ff6b6b; }
-    #finn-weapon-side .picker-name { color: #64b5f6; }
+    #ford-weapon-side .picker-name { color: #64b5f6; }
+    #finn-weapon-side .picker-name { color: #ff6b6b; }
 
     /* Stat allocation */
     .alloc-block { width: 96%; display: flex; flex-direction: column; gap: 6px; }
@@ -59,12 +59,12 @@
     }
     .adj-btn:active { background: #444; }
     .adj-btn:disabled { opacity: 0.2; pointer-events: none; }
-    #ford-weapon-side .adj-btn { border-color: #c0392b; }
-    #finn-weapon-side .adj-btn { border-color: #1565c0; }
+    #ford-weapon-side .adj-btn { border-color: #1565c0; }
+    #finn-weapon-side .adj-btn { border-color: #c0392b; }
     .alloc-track { flex: 1; height: 10px; background: #222; border-radius: 5px; overflow: hidden; }
     .alloc-fill  { height: 100%; border-radius: 5px; transition: width 0.15s; }
-    #ford-weapon-side .alloc-fill { background: linear-gradient(90deg,#c0392b,#ff6b6b); }
-    #finn-weapon-side .alloc-fill { background: linear-gradient(90deg,#1565c0,#64b5f6); }
+    #ford-weapon-side .alloc-fill { background: linear-gradient(90deg,#1565c0,#64b5f6); }
+    #finn-weapon-side .alloc-fill { background: linear-gradient(90deg,#c0392b,#ff6b6b); }
     .alloc-val { font-size: clamp(9px,2vw,12px); color: #ccc; font-weight: 900; width: 40px; text-align: right; flex-shrink: 0; }
 
     /* Weapon buttons */
@@ -78,10 +78,10 @@
     .weapon-btn .w-icon { font-size: clamp(24px,6vw,40px); line-height: 1; }
     .weapon-btn .w-name { font-size: clamp(10px,2.6vw,15px); font-weight: 900; color: #fff; letter-spacing: 1px; }
     .weapon-btn .w-desc { font-size: clamp(8px,1.8vw,11px); color: #666; font-weight: 700; text-align: center; }
-    #ford-weapon-side .weapon-btn.selected { background: rgba(255,107,107,0.18); border-color: #ff6b6b; box-shadow: 0 0 12px rgba(255,107,107,0.3); }
-    #ford-weapon-side .weapon-btn.selected .w-name { color: #ff6b6b; }
-    #finn-weapon-side .weapon-btn.selected { background: rgba(100,181,246,0.18); border-color: #64b5f6; box-shadow: 0 0 12px rgba(100,181,246,0.3); }
-    #finn-weapon-side .weapon-btn.selected .w-name { color: #64b5f6; }
+    #ford-weapon-side .weapon-btn.selected { background: rgba(100,181,246,0.18); border-color: #64b5f6; box-shadow: 0 0 12px rgba(100,181,246,0.3); }
+    #ford-weapon-side .weapon-btn.selected .w-name { color: #64b5f6; }
+    #finn-weapon-side .weapon-btn.selected { background: rgba(255,107,107,0.18); border-color: #ff6b6b; box-shadow: 0 0 12px rgba(255,107,107,0.3); }
+    #finn-weapon-side .weapon-btn.selected .w-name { color: #ff6b6b; }
     .weapon-btn.locked { opacity: 0.35; pointer-events: none; }
 
     /* ── COUNTDOWN ── */
@@ -95,12 +95,12 @@
     /* ── ARENA ── */
     #arena { flex: 1; display: flex; }
     .fighter-zone { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
-    #ford-zone { background: linear-gradient(170deg,#1a0505,#2d0a0a); border-right: 3px solid #333; }
-    #finn-zone { background: linear-gradient(170deg,#050518,#0a0a2d); }
+    #ford-zone { background: linear-gradient(170deg,#050518,#0a0a2d); border-right: 3px solid #333; }
+    #finn-zone { background: linear-gradient(170deg,#1a0505,#2d0a0a); }
     .fighter-zone:active { filter: brightness(1.3); }
     .fighter-name { font-size: clamp(36px,8vw,64px); font-weight: 900; letter-spacing: 3px; text-shadow: 0 0 24px currentColor; margin-bottom: 8px; pointer-events: none; }
-    #ford-zone .fighter-name { color: #ff6b6b; }
-    #finn-zone .fighter-name { color: #64b5f6; }
+    #ford-zone .fighter-name { color: #64b5f6; }
+    #finn-zone .fighter-name { color: #ff6b6b; }
     .weapon-icon  { font-size: clamp(52px,12vw,84px); margin-bottom: 8px; pointer-events: none; filter: drop-shadow(0 0 14px rgba(255,255,255,0.35)); }
     .tap-hint     { font-size: clamp(11px,2.3vw,17px); font-weight: 900; color: rgba(255,255,255,0.28); letter-spacing: 3px; pointer-events: none; }
     .poison-label { font-size: clamp(13px,2.8vw,19px); font-weight: 900; color: #66bb6a; letter-spacing: 2px; pointer-events: none; margin-top: 6px; animation: poison-pulse 0.6s ease-in-out infinite alternate; }
@@ -122,16 +122,37 @@
     /* ── CHARGE BAR ── */
     .charge-track { position: absolute; bottom: 18px; left: 8%; right: 8%; height: 10px; background: rgba(255,255,255,0.07); border-radius: 5px; overflow: hidden; pointer-events: none; }
     .charge-fill  { height: 100%; width: 0%; border-radius: 5px; }
-    #ford-zone .charge-fill { background: linear-gradient(90deg,#ff6b6b,#ffd700); box-shadow: 0 0 8px #ffd700; }
-    #finn-zone .charge-fill { background: linear-gradient(90deg,#64b5f6,#ffd700); box-shadow: 0 0 8px #ffd700; }
+    #ford-zone .charge-fill { background: linear-gradient(90deg,#64b5f6,#ffd700); box-shadow: 0 0 8px #ffd700; }
+    #finn-zone .charge-fill { background: linear-gradient(90deg,#ff6b6b,#ffd700); box-shadow: 0 0 8px #ffd700; }
     .charge-label { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); font-size: clamp(12px,2.8vw,17px); font-weight: 900; color: #ffd700; letter-spacing: 2px; pointer-events: none; opacity: 0; text-shadow: 0 0 10px #ffd700; }
     .charge-label.show { opacity: 1; animation: clabel-pulse 0.3s ease infinite alternate; }
     @keyframes clabel-pulse { from{transform:translateX(-50%) scale(1)} to{transform:translateX(-50%) scale(1.1)} }
 
+    /* ── FIGHTER CHARACTERS ── */
+    .char-outer {
+      position: absolute; bottom: 52px;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      pointer-events: none; z-index: 5;
+    }
+    #ford-char-outer { right: 10%; animation: char-bob-ford 1.8s ease-in-out infinite; }
+    #finn-char-outer { left:  10%; animation: char-bob-finn 1.8s ease-in-out infinite; }
+    .char-w { font-size: 26px; line-height: 1.1; display: block; text-align: center; }
+    .char-b { font-size: 44px; line-height: 1;   display: block; }
+    @keyframes char-bob-ford { 0%,100%{transform:translateY(0)}           50%{transform:translateY(-7px)} }
+    @keyframes char-bob-finn { 0%,100%{transform:scaleX(-1) translateY(0)} 50%{transform:scaleX(-1) translateY(-7px)} }
+    .char-outer.char-atk-ford { animation: do-atk-ford 0.36s ease-out; }
+    .char-outer.char-atk-finn { animation: do-atk-finn 0.36s ease-out; }
+    @keyframes do-atk-ford { 0%{transform:translateX(0) scale(1)} 40%{transform:translateX(52px) scale(1.3)} 100%{transform:translateX(0) scale(1)} }
+    @keyframes do-atk-finn { 0%{transform:scaleX(-1) scale(1)} 40%{transform:scaleX(-1) translateX(52px) scale(1.3)} 100%{transform:scaleX(-1) scale(1)} }
+    .char-outer.char-hit-ford { animation: do-hit-ford 0.32s ease-out; }
+    .char-outer.char-hit-finn { animation: do-hit-finn 0.32s ease-out; }
+    @keyframes do-hit-ford { 0%,100%{transform:translateX(0)}         30%{transform:translateX(-18px) rotate(-10deg)} }
+    @keyframes do-hit-finn { 0%,100%{transform:scaleX(-1) translateX(0)} 30%{transform:scaleX(-1) translateX(-18px) rotate(10deg)} }
+
     /* ── HIT EFFECTS ── */
     .hit-flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
-    #ford-zone .hit-flash { background: radial-gradient(circle,rgba(255,100,100,.6),transparent 70%); }
-    #finn-zone .hit-flash { background: radial-gradient(circle,rgba(100,181,246,.6),transparent 70%); }
+    #ford-zone .hit-flash { background: radial-gradient(circle,rgba(100,181,246,.6),transparent 70%); }
+    #finn-zone .hit-flash { background: radial-gradient(circle,rgba(255,100,100,.6),transparent 70%); }
     .hit-flash.flash     { animation: flash-anim .18s ease-out forwards; }
     .hit-flash.flash-big { animation: flash-anim .38s ease-out forwards; }
     @keyframes flash-anim { 0%{opacity:1} 100%{opacity:0} }
@@ -163,8 +184,8 @@
     #win-sub  { font-size: clamp(15px,4vw,25px); color: #fff; opacity:.8; margin-bottom: 20px; text-align: center; padding: 0 20px; }
     #win-pips { display: flex; gap: 10px; align-items: center; margin-bottom: 44px; }
     .win-pip  { width: 20px; height: 20px; border-radius: 50%; border: 3px solid #555; }
-    .win-pip.ford-won { background: #ff6b6b; border-color: #ff6b6b; }
-    .win-pip.finn-won { background: #64b5f6; border-color: #64b5f6; }
+    .win-pip.ford-won { background: #64b5f6; border-color: #64b5f6; }
+    .win-pip.finn-won { background: #ff6b6b; border-color: #ff6b6b; }
     .win-pip-divider  { width: 3px; height: 22px; background: #555; border-radius: 2px; }
     #win-btn { font-size: clamp(19px,5vw,28px); font-weight: 900; color: #000; background: #ffd700; border: none; border-radius: 20px; padding: 18px 48px; cursor: pointer; letter-spacing: 2px; box-shadow: 0 7px 0 #9a7200; transition: transform .08s,box-shadow .08s; }
     #win-btn:active { transform: translateY(5px); box-shadow: 0 2px 0 #9a7200; }
@@ -199,6 +220,10 @@
       <div class="poison-label" id="ford-poison-label" style="display:none">☠️ POISONED</div>
       <div class="charge-label" id="ford-charge-label">⚡ HOLD!</div>
       <div class="charge-track"><div class="charge-fill" id="ford-charge-fill"></div></div>
+      <div class="char-outer" id="ford-char-outer">
+        <span class="char-w" id="ford-char-w">⚔️</span>
+        <span class="char-b">🧍</span>
+      </div>
     </div>
     <div class="fighter-zone" id="finn-zone">
       <div class="hit-flash"    id="finn-flash"></div>
@@ -208,6 +233,10 @@
       <div class="poison-label" id="finn-poison-label" style="display:none">☠️ POISONED</div>
       <div class="charge-label" id="finn-charge-label">⚡ HOLD!</div>
       <div class="charge-track"><div class="charge-fill" id="finn-charge-fill"></div></div>
+      <div class="char-outer" id="finn-char-outer">
+        <span class="char-w" id="finn-char-w">⚔️</span>
+        <span class="char-b">🧍</span>
+      </div>
     </div>
   </div>
 
@@ -306,7 +335,7 @@
     </div>
   </div>
 
-  <div id="version-tag">v1.9</div>
+  <div id="version-tag">v2.0</div>
 
   <!-- Win screen -->
   <div id="win-screen">
@@ -461,6 +490,8 @@
       $('weapon-screen').classList.remove('show');
       $('ford-weapon-icon').textContent = WEAPONS[weapon.ford].icon;
       $('finn-weapon-icon').textContent = WEAPONS[weapon.finn].icon;
+      $('ford-char-w').textContent = WEAPONS[weapon.ford].icon;
+      $('finn-char-w').textContent = WEAPONS[weapon.finn].icon;
       $('ford-tap-hint').textContent = '✨ FULL HIT  ·  TAP = WEAK  ·  HOLD = ⚡';
       $('finn-tap-hint').textContent = '✨ FULL HIT  ·  TAP = WEAK  ·  HOLD = ⚡';
       roundActive = false;  // block input during countdown
@@ -620,6 +651,15 @@
       $(`${who}-charge-fill`).style.width='0%'; $(`${who}-charge-label`).classList.remove('show');
     }
 
+    // ── Fighter character animations ──
+    function charAnim(who, type) {
+      const el = $(`${who}-char-outer`); if (!el) return;
+      el.classList.remove('char-atk-ford','char-atk-finn','char-hit-ford','char-hit-finn');
+      void el.offsetWidth;
+      el.classList.add(`char-${type}-${who}`);
+      el.addEventListener('animationend', () => el.classList.remove(`char-${type}-${who}`), { once:true });
+    }
+
     // ── Weak hit (tap anywhere except spot) ──
     function doWeakHit(attacker) {
       if (gameOver || !roundActive) return;
@@ -628,6 +668,7 @@
       const defZone  = defender==='ford' ? fordZone : finnZone;
       const dmg      = Math.floor(Math.random()*(w.weakMax-w.weakMin+1))+w.weakMin;
       hp[defender]  -= dmg;
+      charAnim(attacker, 'atk'); charAnim(defender, 'hit');
       playHit(false, false); shakeScreen(false);
       flashZone($(`${defender}-flash`), false);
       spawnDmg(defZone, dmg, 'normal');
@@ -647,6 +688,7 @@
       const isWand = weapon[attacker] === 'wand';
       const type = isCrit ? 'crit' : isWand ? 'magic' : isSpecial ? 'special' : 'normal';
       hp[defender] -= dmg;
+      charAnim(attacker, 'atk'); charAnim(defender, 'hit');
       playHit(isSpecial, isCrit); shakeScreen(isSpecial||isCrit);
       flashZone($(`${defender}-flash`), isSpecial||isCrit);
       spawnDmg(defZone, dmg, type);
